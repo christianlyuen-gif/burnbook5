@@ -1,0 +1,928 @@
+<title>BurnBook</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#f3f6f7;--surface:#ffffff;--ink:#12212b;--ink2:#43535e;--ink3:#66767f;--line:#d8e0e4;--band:#e5ecef;
+  --s1:#2b6fb8;--s2:#d4741f;--s3:#178f8a;
+  --ok:#237a4e;--warn:#98600a;--bad:#b9362a;--okbg:#e0f2e8;--warnbg:#faefd6;--badbg:#f8e1dd;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d171e;--surface:#152530;--ink:#e6eef3;--ink2:#a8b8c3;--ink3:#8093a0;--line:#2a3c49;--band:#1c2f3b;
+  --s1:#5ea4ea;--s2:#f0964d;--s3:#4cc3bd;
+  --ok:#5cc891;--warn:#e5ad45;--bad:#f27967;--okbg:#173a2b;--warnbg:#3a2f14;--badbg:#42211d;
+}}
+:root[data-theme="dark"]{
+  --bg:#0d171e;--surface:#152530;--ink:#e6eef3;--ink2:#a8b8c3;--ink3:#8093a0;--line:#2a3c49;--band:#1c2f3b;
+  --s1:#5ea4ea;--s2:#f0964d;--s3:#4cc3bd;
+  --ok:#5cc891;--warn:#e5ad45;--bad:#f27967;--okbg:#173a2b;--warnbg:#3a2f14;--badbg:#42211d;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);margin:0;padding-inline:16px;padding-block:0 48px;-webkit-text-size-adjust:100%}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3,p{margin:0}
+h1{font-size:34px;line-height:1.1;letter-spacing:-.02em;font-weight:600}
+h2{font-size:21px;line-height:1.25;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+h3{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--s2);margin-bottom:10px}
+.top{display:flex;gap:16px 32px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;padding-block:36px 22px}
+.lede{color:var(--ink2);max-width:62ch;margin-top:10px}
+.mode{font:400 12px/1.4 var(--mono);color:var(--ink3);display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--warn);display:inline-block}
+.dot.live{background:var(--ok)}
+section{padding-block:34px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:8px}
+.sec-head{display:grid;gap:6px;margin-bottom:20px;max-width:74ch}
+.sec-head p{color:var(--ink2)}
+.takes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.take{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.take .n{font:500 30px/1.1 var(--mono);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.take .n small{font-size:14px;color:var(--ink3);margin-left:4px}
+.take p{color:var(--ink2);font-size:14px;margin-top:6px}
+.grid2{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px}
+.stack{display:grid;gap:18px;align-content:start}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip,.seg button{font:500 13px/1 var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:9px 13px;cursor:pointer}
+.chip[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip:focus-visible,.seg button:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+.seg{display:inline-flex;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{border:0;border-radius:0;padding:8px 12px}
+.ctl{display:grid;gap:6px;margin-top:16px}
+.ctl label{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2)}
+.ctl output{font:500 14px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--s1);margin:0;height:28px}
+.hint{font-size:12px;color:var(--ink3)}
+.big{font:500 44px/1 var(--mono);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.big small{font-size:16px;color:var(--ink3);letter-spacing:0;margin-left:6px}
+.range{font:400 13px/1.4 var(--mono);color:var(--ink2);margin-top:6px}
+.pill{display:inline-block;font:500 12px/1 var(--sans);padding:6px 9px;border-radius:999px}
+.pill.ok{background:var(--okbg);color:var(--ok)}
+.pill.warn{background:var(--warnbg);color:var(--warn)}
+.pill.bad{background:var(--badbg);color:var(--bad)}
+.pill.neutral{background:var(--band);color:var(--ink2)}
+ul.warns{margin:10px 0 0;padding-left:18px;color:var(--ink2);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-weight:500;color:var(--ink3);text-align:left;padding:6px 8px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:9px 8px 9px 0;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+td.num,th.num{text-align:right;font-family:var(--mono)}
+.tw{overflow-x:auto}
+.cat-bar{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-bottom:12px}
+.cat-target{font-size:13.5px;color:var(--ink2);margin-right:auto}
+.cat-only{font-size:13px;color:var(--ink2);display:flex;gap:6px;align-items:center}
+table.cat{min-width:860px}
+table.cat tr.main{cursor:pointer}
+table.cat tr.main:hover td{background:var(--band)}
+table.cat tr.main td:first-child{font-family:var(--mono);color:var(--ink3);width:2.5em}
+table.cat .nm{font-weight:500}.cat .sub{display:block;color:var(--ink3);font-size:12px}
+table.cat .rel{display:flex;align-items:center;gap:8px;min-width:120px}
+.relbar{flex:1;height:6px;background:var(--band);border-radius:3px;overflow:hidden}.relbar i{display:block;height:100%;background:var(--s1);border-radius:3px}
+table.cat .rel b{font:500 12.5px var(--mono);width:2.6em;text-align:right}
+table.cat tr.det td{background:var(--bg);padding:14px 16px}
+.det-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px 28px}
+.det-grid dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;font-size:13px}
+.det-grid dt{color:var(--ink3)}.det-grid dd{margin:0}
+.parts{display:grid;grid-template-columns:auto minmax(60px,1fr) auto;gap:4px 10px;align-items:center;font-size:12.5px}
+.parts span{color:var(--ink2)}.parts em{font:500 12px var(--mono);font-style:normal;color:var(--ink3)}
+.sumbox{margin-top:12px;font-size:13.5px}
+@media (max-width:720px){.det-grid{grid-template-columns:minmax(0,1fr)}
+  table.cat{min-width:0}table.cat thead{display:none}
+  table.cat tr.main{display:grid;grid-template-columns:2.2em minmax(0,1fr);padding:10px 0;border-bottom:1px solid var(--line)}
+  table.cat tr.main td{border:0;padding:2px 0;text-align:left}
+  table.cat tr.main td:first-child{grid-row:span 7}
+  table.cat tr.main td[data-l]{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  table.cat tr.main td[data-l]::before{content:attr(data-l);color:var(--ink3);font-size:12px;min-width:6.5em}
+  table.cat tr.main td[data-l] .sub{flex-basis:100%;padding-left:calc(6.5em + 8px)}
+  table.cat td[data-l="Relevance"] .rel{flex:1}
+  table.cat tr.det,table.cat tr.det td{display:block}}
+.gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.gal figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.gal img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:#000}
+.gal figcaption{padding:10px 12px 12px;font-size:13px;color:var(--ink2);display:grid;gap:6px}
+.gal .cr{font-size:11.5px;color:var(--ink3)}
+.gal .ss{font:500 12px var(--mono);color:var(--ink2)}
+.soot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:18px 26px;align-items:start}
+.soot-ex{margin:0}.soot-ex img{display:block;width:100%;border-radius:4px;background:#000}.soot-ex figcaption{margin-top:6px}
+@media (max-width:720px){.soot{grid-template-columns:minmax(0,1fr)}}
+#s2Table td:nth-child(4),#s2Table th:nth-child(4){padding-left:20px}
+#s2Table .sub{display:block;color:var(--ink3);font-size:12px}
+svg{display:block;width:100%;overflow:visible}
+svg text{font:400 11.5px var(--sans);fill:var(--ink2)}
+svg .mono{font-family:var(--mono)}
+svg .grid{stroke:var(--line);stroke-width:1;fill:none}
+svg .axis{stroke:var(--ink3);stroke-width:1;fill:none}
+svg .lbl{paint-order:stroke;stroke:var(--surface);stroke-width:3.5px;stroke-linejoin:round}
+svg .strong{fill:var(--ink);font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--ink2);margin-bottom:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.legend i.ln{width:16px;height:2px;border-radius:0;vertical-align:3px}
+.legend i.dm{border-radius:0;transform:rotate(45deg) scale(.85)}
+.chart-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chart-title h3{color:var(--ink)}
+.note{font-size:13px;color:var(--ink3);max-width:80ch;margin-top:12px}
+.sf-row{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr) minmax(0,1fr);gap:8px 20px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.sf-head{border-bottom:1px solid var(--line);padding-bottom:8px;font-size:12px;color:var(--ink3)}
+.sf-row .nm{font-size:13.5px;font-weight:500}
+.sf-row .nm span{display:block;font-weight:400;color:var(--ink3);font-size:12px}
+.track{position:relative;height:16px;background:var(--band);border-radius:2px}
+.bar{position:absolute;left:0;top:0;bottom:0;background:var(--s1);border-radius:2px}
+.bar.over{background:var(--bad)}
+.lim{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed var(--ink)}
+.val{font:400 12px/1 var(--mono);color:var(--ink2);margin-top:5px;font-variant-numeric:tabular-nums}
+.tick-lbl{position:absolute;top:22px;font:400 11px/1 var(--mono);color:var(--ink3);transform:translateX(-50%);white-space:nowrap}
+@media (max-width:720px){.sf-row{grid-template-columns:minmax(0,1fr)}.sf-head{display:none}}
+.search{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+input[type=search],input[type=text]{flex:1 1 220px;min-width:0;font:400 15px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.btn{font:500 14px var(--sans);background:var(--ink);color:var(--surface);border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
+.ev{display:grid;gap:10px;margin-top:14px}
+.ev-item{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.ev-item .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.ev-item .id{font:500 12px var(--mono);color:var(--s1)}
+.ev-item .claim{font-weight:500}
+.ev-item dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 12px;margin:10px 0 0;font-size:13px;color:var(--ink2)}
+.ev-item dt{color:var(--ink3)}
+.ev-item dd{margin:0}
+.answer{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--s3);border-radius:6px;padding:14px 16px;margin-top:14px}
+.answer.plain{border-left-color:var(--warn)}
+.ask-box{margin-top:26px}
+.hist{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:grid;gap:14px}
+.hcard .when{font:500 12px/1.4 var(--mono);color:var(--s2);letter-spacing:.04em}
+.hcard h3.t{font-size:22px;letter-spacing:-.01em;text-transform:none;color:var(--ink);margin-top:2px}
+.hcard .crew{font-size:13px;color:var(--ink3)}
+.hcard .sum{color:var(--ink2)}
+.hcard dl{display:grid;grid-template-columns:minmax(7.5em,auto) minmax(0,1fr);gap:6px 14px;margin:0;font-size:13.5px}
+.hcard dt{color:var(--ink3)}.hcard dd{margin:0}
+.hcard h4{margin:0;font:600 12px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.hcard ul{margin:6px 0 0;padding-left:18px;color:var(--ink2);font-size:13.5px;display:grid;gap:4px}
+.hlinks{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.hlink p{font-size:13.5px}.hlink p b{font-weight:600}
+.cls{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+details.cl summary{list-style:none;cursor:pointer;font:500 12px/1 var(--mono);color:var(--s1);border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:var(--bg)}
+details.cl summary::-webkit-details-marker{display:none}
+details.cl[open]{flex-basis:100%}
+details.cl[open] summary{background:var(--ink);color:var(--surface);border-color:var(--ink);display:inline-block}
+details.cl .cbody{margin-top:6px;font-size:13px;color:var(--ink2);background:var(--bg);border-radius:4px;padding:10px 12px}
+.hsrc{font-size:12.5px;color:var(--ink3);display:grid;gap:4px}
+.hsrc a{color:var(--s1)}
+details.dn summary{cursor:pointer;font-size:12.5px;color:var(--warn)}
+details.dn ul{font-size:12.5px}
+footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-size:13px;display:grid;gap:8px;max-width:80ch}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Microgravity fire safety · evidence board</p>
+      <h1>BurnBook</h1>
+      <p class="lede">What NASA's flame experiments say about fire risk in a spacecraft cabin, in one place: a spread-rate model you can run, the flammability boundaries behind it, large-scale test results, and every claim traced to its source and conditions.</p>
+    </div>
+    <p class="mode" id="mode"><span class="dot"></span><span>Loading data</span></p>
+  </header>
+
+  <section class="first">
+    <div class="takes" id="takes"></div>
+  </section>
+
+  <section id="history">
+    <div class="sec-head">
+      <h2>Learning from history: what Apollo 1 and Apollo 13 taught</h2>
+      <p>Apollo 1 and Apollo 13 were tragic accidents caused by oversights in cabin oxygen level, materials and flamibility. Burnbook has gathered the improvements that NASA has made since these accidents, and data to explain how these incidents occured.  .</p>
+    </div>
+    <div class="hist" id="histCards"></div>
+    <div class="panel" style="margin-top:16px">
+      <div class="chart-title"><h3>Oxygen in the cabin, then and now</h3><span class="hint">Bar length is the oxygen share of the cabin air</span></div>
+      <div class="legend"><span><i style="background:var(--s2)"></i>Apollo era</span><span><i style="background:var(--s1)"></i>Today and planned</span><span><i class="ln" style="background:var(--ink)"></i>Highest oxygen in BurnBook's data</span></div>
+      <div id="cHist"></div>
+      <p class="note" id="histNote"></p>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="sec-head">
+      <h2>What fire looks like in orbit</h2>
+      <p>Without gravity there is no rising hot air, so flames take the shape of the airflow instead, or grow into spheres when there is no flow at all. Crew photos from BASS and BASS-II and camera frames from ACME.</p>
+    </div>
+    <div class="gal" id="gal"></div>
+    <div class="panel soot" id="sootPanel" style="margin-top:16px">
+      <div>
+        <h3>Soot score</h3>
+        <p class="hint" style="margin:6px 0 10px">Blue light comes from the reaction zone; yellow, orange and white light is glowing soot. The score is the share of flame pixels in soot colours, from 0 (all blue) to 1 (all soot). It is measured by image processing, so the same photo always gives the same number. It counts area, not brightness, so a dim soot glow that fills a flame still scores high.</p>
+        <figure class="soot-ex"><img id="sootEx" alt="A spherical flame and the same image with soot pixels painted orange and blue pixels painted cyan"><figcaption class="hint">How it counts: original (left), soot pixels orange and blue pixels cyan (right). The dim orange glow inside this flame is soot, so it scores 0.65.</figcaption></figure>
+      </div>
+      <div>
+        <div id="cSoot"></div>
+        <p class="note" id="sootNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="scenario">
+    <div class="sec-head">
+      <h2>Cabin scenario: how fast does a fire spread?</h2>
+      <p>Pick an atmosphere and ventilation speed. The model predicts flame spread over thin cellulose (Kimwipes) in microgravity, with a 95% range, and tells you when you have left the conditions it was tested in.</p>
+    </div>
+    <div class="grid2">
+      <div class="stack">
+        <div class="panel">
+          <h3>Atmosphere</h3>
+          <div class="chips" id="presets" style="margin-top:12px"></div>
+          <div class="ctl"><label for="o2">Oxygen <output id="o2v"></output></label><input type="range" id="o2" min="15" max="40" step="0.5"></div>
+          <div class="ctl"><label for="psia">Pressure <output id="psiav"></output></label><input type="range" id="psia" min="3" max="14.7" step="0.1"></div>
+          <div class="ctl"><label for="flow">Ventilation flow <output id="flowv"></output></label><input type="range" id="flow" min="0" max="30" step="0.5"></div>
+          <p class="hint" style="margin-top:12px" id="presetNote"></p>
+        </div>
+        <div class="panel" aria-live="polite">
+          <h3>Predicted flame spread</h3>
+          <div class="big" id="vout" style="margin-top:10px"></div>
+          <p class="range" id="vrange"></p>
+          <div style="margin-top:12px" id="status"></div>
+          <ul class="warns" id="warns"></ul>
+        </div>
+        <div class="panel">
+          <h3>Margin to the 0 g burning limit</h3>
+          <p class="hint" style="margin:6px 0 10px">Lowest oxygen at which each fuel still burned in microgravity (Olson 2008). Each limit was measured at one pressure and 30 cm/s flow.</p>
+          <div class="tw"><table id="margins"></table></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="panel">
+          <div class="chart-title"><h3>Spread rate vs. ventilation flow</h3><span class="hint" id="flowNote"></span></div>
+          <div id="cFlow"></div>
+        </div>
+        <div class="panel">
+          <div class="chart-title"><h3>Model check against the source tests</h3><span class="hint">Correlation parameter x = O₂ fraction × flow × √pressure</span></div>
+          <div class="legend"><span><i class="ln" style="background:var(--s1)"></i>Published fit and 95% range</span><span><i style="background:var(--s2)"></i>22 drop-tower tests (digitized)</span></div>
+          <div id="cX"></div>
+          <p class="note" id="loo"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="catalog">
+    <div class="sec-head">
+      <h2>Which investigations matter for this cabin?</h2>
+      <p>Every NASA investigation in the mission brief, described by the same attributes and ranked by how closely its tests match the cabin atmosphere chosen above. The ranking is a fixed formula, shown under each row; it is not a model's opinion.</p>
+    </div>
+    <div class="panel">
+      <div class="cat-bar">
+        <p class="cat-target" id="catTarget"></p>
+        <div class="chips" id="catPhase"></div>
+        <label class="cat-only"><input type="checkbox" id="catOnly"> Only with data in BurnBook</label>
+      </div>
+      <div class="tw"><table class="cat" id="catTable"></table></div>
+      <p class="note" id="catNote"></p>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="sec-head">
+      <h2>Ground tests understate the hazard</h2>
+      <p>NASA's standard upward-burn test is used to screen materials for spacecraft. In microgravity, all three fuels tested burned at lower oxygen than that test predicts.</p>
+    </div>
+    <div class="panel">
+      <div class="legend"><span><i style="background:var(--s1)"></i>1 g standard test (ULOI)</span><span><i style="background:var(--s2)"></i>0 g, lowest oxygen that burned</span><span><i class="ln" style="background:var(--ink)"></i>Your cabin oxygen (from the scenario above)</span></div>
+      <div id="cLimits"></div>
+      <p class="note" id="limitsNote"></p>
+    </div>
+  </section>
+
+  <section id="oxygen">
+    <div class="sec-head">
+      <h2>More oxygen, longer-lived flames</h2>
+      <p>CFI-G lit small gas flames on a spherical burner in still air. Near ordinary 21% oxygen every flame went out on its own within seconds; at the 30 to 40% oxygen planned for some exploration cabins, many were still burning minutes later when the fuel was shut off.</p>
+    </div>
+    <div class="panel">
+      <div class="legend"><span><i style="background:var(--s1)"></i>Went out on its own</span><span><i style="background:transparent;border:2px solid var(--s2);box-sizing:border-box"></i>Still burning when the fuel was cut (lasted longer)</span><span><i class="ln" style="background:var(--ink)"></i>Your cabin oxygen (from the scenario above)</span></div>
+      <div id="cOxygen"></div>
+      <p class="note" id="oxygenNote"></p>
+    </div>
+  </section>
+
+  <section id="suppress">
+    <div class="sec-head">
+      <h2>Suppressant gases cut droplet fires short</h2>
+      <p>FLEX burned fuel droplets on the ISS in still air. Each mark is one droplet: how much of it burned before its flame went out. Near the oxygen limit (13 to 16%), droplets in air diluted with CO₂ or helium burned less than droplets in nitrogen alone. Bigger marks are bigger droplets, which also go out sooner.</p>
+    </div>
+    <div class="panel">
+      <div class="cat-bar">
+        <div class="chips" id="flexFuel"></div>
+        <div class="chips" id="flexP"></div>
+      </div>
+      <div class="legend"><span><svg width="12" height="12" aria-hidden="true" style="display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:4px"><circle cx="6" cy="6" r="4.5" style="fill:var(--s1)"/></svg> Nitrogen only</span><span><svg width="12" height="12" aria-hidden="true" style="display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:4px"><rect x="1.5" y="1.5" width="9" height="9" style="fill:var(--s2)"/></svg> With CO₂</span><span><svg width="12" height="12" aria-hidden="true" style="display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:4px"><path d="M6 1 L11 10.5 L1 10.5 Z" style="fill:var(--s3)"/></svg> With helium</span><span>Larger mark = larger droplet (1 to 5 mm)</span><span><i class="ln" style="background:var(--ink)"></i>Your cabin oxygen</span></div>
+      <div id="cFlex"></div>
+      <p class="note" id="flexNote"></p>
+    </div>
+  </section>
+
+  <section id="boundary">
+    <div class="sec-head">
+      <h2>Flammability boundary: too little or too much air flow puts a flame out</h2>
+      <p>For PMMA rods burning in the ISS and in drop towers, the oxygen needed to keep a flame going is lowest at moderate flow. Slow flow starves the flame (quench); fast flow blows it off.</p>
+    </div>
+    <div class="panel">
+      <div class="chart-title">
+        <div class="legend" style="margin:0"><span><i style="background:var(--s1)"></i>Stable flame</span><span><i style="background:var(--s2)"></i>Blowoff</span><span><i style="background:var(--s3)"></i>Quench</span><span>● ISS &nbsp;◆ drop tower</span><span><i class="ln" style="background:var(--ink)"></i>Published fits</span></div>
+        <div class="seg" role="group" aria-label="Horizontal scale"><button id="scLog" aria-pressed="true">Log scale</button><button id="scLin" aria-pressed="false">Linear scale</button></div>
+      </div>
+      <div id="cBoundary"></div>
+      <p class="note" id="boundaryNote"></p>
+    </div>
+  </section>
+
+  <section id="saffire">
+    <div class="sec-head">
+      <h2>Large-scale fires: gas, not heat, is the cabin-wide problem</h2>
+      <p>The Saffire experiments burned samples up to 1 m long inside a free-flying Cygnus cargo vehicle. Bars show the rise in carbon dioxide and carbon monoxide in the cabin volume; red bars pass a spacecraft limit.</p>
+    </div>
+    <div class="panel">
+      <div class="sf-row sf-head"><span>Test</span><span>CO₂ rise (dashed: 3 mmHg, 1 hour limit)</span><span>CO rise (dashed: 100 ppm 24 h · 425 ppm 1 h)</span></div>
+      <div id="sfRows"></div>
+      <p class="note" id="sfNote"></p>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h3>Same sample, space versus Earth</h3>
+      <p class="hint" style="margin:6px 0 10px">Saffire-II burned 29 × 5 cm strips in orbit at 20 cm/s and about 22% O₂; the same materials were burned on the ground. Ground tests are not always the harsher one.</p>
+      <div class="tw"><table id="s2Table"></table></div>
+      <p class="note" id="s2Note"></p>
+    </div>
+  </section>
+
+  <section id="evidence">
+    <div class="sec-head">
+      <h2>Evidence explorer</h2>
+      <p>Every claim below carries the conditions it was measured under, where to find it in the source, and a caveat. Filter by topic, search by keyword, or ask a question.</p>
+    </div>
+    <div class="search">
+      <input type="search" id="q" placeholder="Search claims, for example blowoff, smoke detection, Mylar" aria-label="Search evidence">
+    </div>
+    <div class="chips" id="topics" style="margin-bottom:4px"></div>
+    <div class="ev" id="evList"></div>
+    <div class="ask-box">
+      <h3>Ask a question</h3>
+      <form class="search" id="askForm" style="margin-top:10px">
+        <input type="text" id="askQ" value="Are ground flammability tests conservative for microgravity?" aria-label="Question" maxlength="500">
+        <button class="btn" type="submit">Ask</button>
+      </form>
+      <div id="askOut"></div>
+    </div>
+  </section>
+
+  <section id="gap">
+    <div class="sec-head">
+      <h2 id="gapTitle">The gap: no data at Moon or Mars gravity</h2>
+      <p id="gapLede"></p>
+    </div>
+    <div class="panel">
+      <div id="cGap"></div>
+      <p class="note" id="gapNote"></p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong style="color:var(--ink2)">Scope.</strong> The spread-rate model covers one fuel (Kimwipes thin cellulose), concurrent flow, microgravity only; it reuses the published Olson 2008 correlation and adds an uncertainty band from 22 digitized points. It is a research aid, not a material-certification tool.</p>
+    <p><strong style="color:var(--ink2)">Data.</strong> Numbers come from published NASA papers and slides (Olson 2008; Olson and Ferkul 2015; Saffire I–VI; Carney 2021; NASA TM-101424). Figure-derived points were traced by hand and script, and the PMMA boundary set is partial; the published fits are the reference.</p>
+  </footer>
+</div>
+
+<script>
+const SNAP = /*__BUNDLE__*/null;
+let B = SNAP, live = false;
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const f1 = v => Number(v).toFixed(1), f2 = v => Number(v).toFixed(2);
+const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+const logS = (d0, d1, r0, r1) => { const a = Math.log10(d0), b = Math.log10(d1); return v => r0 + (Math.log10(v) - a) / (b - a) * (r1 - r0); };
+function niceStep(range, n) { const s0 = range / n, p = Math.pow(10, Math.floor(Math.log10(s0))), e = s0 / p; return (e < 1.5 ? 1 : e < 3 ? 2 : e < 7 ? 5 : 10) * p; }
+function ticks(a, b, n) { const s = niceStep(b - a, n), out = []; for (let v = Math.ceil(a / s - 1e-9) * s; v <= b + 1e-9; v += s) out.push(+v.toFixed(10)); return out; }
+function niceMax(v, n = 4) { const s = niceStep(v, n); return Math.ceil(v / s - 1e-9) * s; }
+const SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+const pow10 = e => '10' + String(e).split('').map(c => SUP[c]).join('');
+
+const state = { o2: 30, psia: 10.2, flow: 20, scale: 'log', topic: '', preset: 'preeva' };
+
+/* ---------- model (port of api/kimwipes_model.py) ---------- */
+function predict(o2, flow, psia) {
+  const M = B.model, x = (o2 / 100) * flow * Math.sqrt(psia / 14.696);
+  const mean = M.slope * x + M.intercept, sd = Math.max(M.sd_floor, M.sd_c0 + M.sd_c1 * x);
+  const lo = Math.max(0, mean - M.t975 * sd), hi = mean + M.t975 * sd, w = [];
+  [['o2_pct', o2], ['flow_cm_s', flow], ['pressure_psia', psia], ['x', x]].forEach(([k, v]) => {
+    const [a, b] = M.range[k];
+    if (v < a || v > b) w.push({ k, msg: k === 'o2_pct' ? `Oxygen ${v}% is outside the tested ${a}–${b}%` : k === 'pressure_psia' ? `Pressure ${v} psia is outside the tested ${a}–${b} psia` : k === 'flow_cm_s' ? `Flow ${v} cm/s is outside the tested ${a}–${b} cm/s` : `Correlation parameter x=${x.toFixed(2)} is outside the tested ${a}–${b}` });
+  });
+  if (x < 1) w.push({ k: 'lowx', msg: 'x is below 1: near the quench limit the real spread rate falls below the line, so treat this as an upper estimate' });
+  return { x, mean, lo, hi, warns: w, ok: w.length === 0 };
+}
+
+/* ---------- chart plumbing ---------- */
+const charts = [];
+function mount(id, draw) {
+  const el = $('#' + id);
+  const run = () => { const w = Math.max(280, Math.floor(el.clientWidth)); el.innerHTML = draw(w); };
+  charts.push(run);
+  if (window.ResizeObserver) new ResizeObserver(run).observe(el);
+  run();
+}
+const redraw = () => charts.forEach(f => f());
+function axes(m, w, h, X, Y, xt, yt, xfmt, yfmt, xl, yl) {
+  let s = '';
+  yt.forEach(v => { s += `<line class="grid" x1="${m.l}" x2="${w - m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="mono" x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${yfmt(v)}</text>`; });
+  xt.forEach(v => { s += `<line class="axis" x1="${X(v)}" x2="${X(v)}" y1="${h - m.b}" y2="${h - m.b + 4}"/><text class="mono" x="${X(v)}" y="${h - m.b + 17}" text-anchor="middle">${xfmt(v)}</text>`; });
+  s += `<line class="axis" x1="${m.l}" x2="${w - m.r}" y1="${h - m.b}" y2="${h - m.b}"/>`;
+  s += `<text x="${(m.l + w - m.r) / 2}" y="${h - 6}" text-anchor="middle">${xl}</text>`;
+  s += `<text x="12" y="${(m.t + h - m.b) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(m.t + h - m.b) / 2})">${yl}</text>`;
+  return s;
+}
+const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
+
+/* ---------- chart: spread vs flow ---------- */
+function drawFlow(w) {
+  const s = state, M = B.model, h = 280, m = { l: 48, r: 14, t: 14, b: 42 };
+  const pts = []; for (let f = 0; f <= 30.001; f += 0.5) pts.push([f, predict(s.o2, f, s.psia)]);
+  const ymax = niceMax(Math.max(0.5, ...pts.map(p => p[1].hi)));
+  const X = lin(0, 30, m.l, w - m.r), Y = lin(0, ymax, h - m.b, m.t);
+  const cur = predict(s.o2, s.flow, s.psia);
+  const extrap = s.o2 < M.range.o2_pct[0] || s.o2 > M.range.o2_pct[1] || s.psia < M.range.pressure_psia[0] || s.psia > M.range.pressure_psia[1];
+  let g = `<rect x="${X(5)}" y="${m.t}" width="${X(20) - X(5)}" height="${h - m.b - m.t}" style="fill:var(--band)"/>`;
+  g += axes(m, w, h, X, Y, [0, 5, 10, 15, 20, 25, 30], ticks(0, ymax, 4), v => v, v => v, 'Flow speed (cm/s)', 'Spread rate (cm/s)');
+  const band = pts.map(p => [X(p[0]), Y(p[1].hi)]).concat(pts.slice().reverse().map(p => [X(p[0]), Y(p[1].lo)]));
+  g += `<path d="${path(band)}Z" style="fill:var(--s1);opacity:${extrap ? .1 : .2}"/>`;
+  g += `<path d="${path(pts.map(p => [X(p[0]), Y(p[1].mean)]))}" style="fill:none;stroke:var(--s1);stroke-width:2;${extrap ? 'stroke-dasharray:6 4' : ''}"/>`;
+  g += `<text class="lbl" x="${X(5) + 6}" y="${m.t + 13}">Typical cabin ventilation, 5–20 cm/s</text>`;
+  g += `<line x1="${X(s.flow)}" x2="${X(s.flow)}" y1="${Y(cur.mean)}" y2="${h - m.b}" style="stroke:var(--s2);stroke-width:1.5;stroke-dasharray:3 3"/>`;
+  g += `<circle cx="${X(s.flow)}" cy="${Y(cur.mean)}" r="5.5" style="fill:var(--s2);stroke:var(--surface);stroke-width:2"/>`;
+  const right = X(s.flow) > w - 110;
+  g += `<text class="lbl strong mono" x="${X(s.flow) + (right ? -10 : 10)}" y="${Y(cur.mean) - 10}" text-anchor="${right ? 'end' : 'start'}">${f2(cur.mean)} cm/s</text>`;
+  $('#flowNote').textContent = extrap ? 'Dashed: this atmosphere is outside the tested range' : `At ${f1(s.o2)}% O₂, ${f1(s.psia)} psia`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Predicted spread rate against flow speed">${g}</svg>`;
+}
+
+/* ---------- chart: V vs x with the source tests ---------- */
+function drawX(w) {
+  const M = B.model, h = 280, m = { l: 48, r: 14, t: 14, b: 42 }, X = lin(0, 14, m.l, w - m.r), Y = lin(0, 4, h - m.b, m.t);
+  const xs = []; for (let x = 0; x <= 14.001; x += 0.25) xs.push(x);
+  const mean = x => M.slope * x + M.intercept, sd = x => Math.max(M.sd_floor, M.sd_c0 + M.sd_c1 * x);
+  let g = axes(m, w, h, X, Y, [0, 2, 4, 6, 8, 10, 12, 14], [0, 1, 2, 3, 4], v => v, v => v, 'Correlation parameter x', 'Spread rate (cm/s)');
+  const band = xs.map(x => [X(x), Y(mean(x) + M.t975 * sd(x))]).concat(xs.slice().reverse().map(x => [X(x), Y(Math.max(0, mean(x) - M.t975 * sd(x)))]));
+  g += `<rect x="${X(M.range.x[0])}" y="${m.t}" width="${X(M.range.x[1]) - X(M.range.x[0])}" height="${h - m.b - m.t}" style="fill:none;stroke:var(--line);stroke-dasharray:2 3"/>`;
+  g += `<path d="${path(band)}Z" style="fill:var(--s1);opacity:.18"/><path d="${path(xs.map(x => [X(x), Y(mean(x))]))}" style="fill:none;stroke:var(--s1);stroke-width:2"/>`;
+  M.points.forEach(p => { g += `<circle cx="${X(p.x)}" cy="${Y(p.v)}" r="3.6" style="fill:var(--s2);stroke:var(--surface);stroke-width:1;opacity:.92"><title>x=${p.x}, ${p.v} cm/s (${esc(p.category)})</title></circle>`; });
+  const c = predict(state.o2, state.flow, state.psia), cx = Math.min(c.x, 14);
+  g += `<line x1="${X(cx)}" x2="${X(cx)}" y1="${m.t}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1.5;stroke-dasharray:3 3"/>`;
+  g += `<text class="lbl strong" x="${X(cx) + (cx > 10 ? -6 : 6)}" y="${m.t + 12}" text-anchor="${cx > 10 ? 'end' : 'start'}">Your scenario, x = ${f2(c.x)}${c.x > 14 ? ' (off chart)' : ''}</text>`;
+  g += `<text class="lbl" x="${X(M.range.x[0]) + 4}" y="${h - m.b - 8}">Tested range of x</text>`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Published correlation and digitized tests">${g}</svg>`;
+}
+
+/* ---------- chart: 1 g vs 0 g limits ---------- */
+function drawLimits(w) {
+  const rows = B.limits, rowH = 62, m = { l: 84, r: 90, t: 12, b: 42 }, h = m.t + m.b + rows.length * rowH;
+  const X = lin(14, 36, m.l, w - m.r);
+  let g = '';
+  ticks(14, 36, 11).forEach(v => { g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${h - m.b}"/><text class="mono" x="${X(v)}" y="${h - m.b + 17}" text-anchor="middle">${v}</text>`; });
+  g += `<text x="${(m.l + w - m.r) / 2}" y="${h - 6}" text-anchor="middle">Oxygen (%)</text>`;
+  rows.forEach((r, i) => {
+    const y = m.t + i * rowH + rowH / 2, nm = r.fuel.split(' ')[0];
+    g += `<text class="strong" x="0" y="${y - 2}">${esc(nm)}</text><text class="mono" x="0" y="${y + 13}" style="font-size:11px">${r.pressure_psia} psia</text>`;
+    g += `<line x1="${X(r.ulo_0g)}" x2="${X(r.ulo_1g)}" y1="${y}" y2="${y}" style="stroke:var(--ink3);stroke-width:2"/>`;
+    g += `<circle cx="${X(r.ulo_1g)}" cy="${y}" r="6" style="fill:var(--s1);stroke:var(--surface);stroke-width:1.5"><title>${esc(nm)} 1 g: ${r.ulo_1g}%</title></circle>`;
+    g += `<circle cx="${X(r.ulo_0g)}" cy="${y}" r="6" style="fill:var(--s2);stroke:var(--surface);stroke-width:1.5"><title>${esc(nm)} 0 g: ${r.ulo_0g}%</title></circle>`;
+    g += `<text class="mono" x="${X(r.ulo_0g) - 10}" y="${y + 4}" text-anchor="end">${r.ulo_0g}</text><text class="mono" x="${X(r.ulo_1g) + 10}" y="${y + 4}">${r.ulo_1g}</text>`;
+    const d = r.delta_from_table;
+    g += `<text class="strong mono" x="${w - 4}" y="${y - 2}" text-anchor="end">${d > 0 ? '+' : '−'}${Math.abs(d).toFixed(2).replace(/0$/, '')}</text>`;
+    g += `<text x="${w - 4}" y="${y + 13}" text-anchor="end" style="font-size:11px;fill:${r.discrepancy ? 'var(--warn)' : 'var(--ink3)'}">${r.discrepancy ? 'text says ' + esc(r.delta_reported_in_text) : 'points O₂'}</text>`;
+  });
+  if (state.o2 >= 14 && state.o2 <= 36) {
+    g += `<line x1="${X(state.o2)}" x2="${X(state.o2)}" y1="${m.t}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 3"/><text class="lbl strong" x="${X(state.o2) + 5}" y="${m.t + 10}">Cabin ${f1(state.o2)}%</text>`;
+  } else {
+    g += `<text class="lbl strong" x="${w - m.r}" y="${m.t + 10}" text-anchor="end">Cabin ${f1(state.o2)}% is off this scale</text>`;
+  }
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Oxygen limits in 1 g and 0 g for three fuels">${g}</svg>`;
+}
+
+/* ---------- chart: PMMA boundary ---------- */
+function drawOxygen(w) {
+  const A = B.acme; if (!A) return '';
+  const h = 340, m = { l: 52, r: 16, t: 14, b: 44 };
+  const X = lin(16, 42, m.l, w - m.r), Y = logS(1, 400, h - m.b, m.t);
+  let g = axes(m, w, h, X, Y, (w < 520 ? [18, 24, 30, 36, 42] : [18, 21, 24, 27, 30, 33, 36, 39, 42]), [1, 3, 10, 30, 100, 300], v => v + '%', v => v, 'Oxygen in the chamber (%)', 'How long the flame lasted (s, log scale)');
+  const pts = A.cfig.filter(t => t.type === 'normal' && t.ignited === 'yes' && t.burn_s > 0 && t.o2_ambient != null);
+  const cab = state.o2;
+  if (cab >= 16 && cab <= 42) {
+    g += `<line x1="${X(cab)}" x2="${X(cab)}" y1="${m.t}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 4"/>`;
+    g += `<text class="lbl strong" x="${X(cab) + (X(cab) > w - 140 ? -6 : 6)}" y="${m.t + 12}" text-anchor="${X(cab) > w - 140 ? 'end' : 'start'}">Your cabin: ${cab}% O₂</text>`;
+  }
+  pts.forEach(p => {
+    const cut = p.ended_by === 'fuel flow stopped', cx = X(p.o2_ambient * 100), cy = Y(Math.min(400, p.burn_s));
+    const t = `<title>${esc(p.test)} · ${esc(p.fuel)} · ${(p.o2_ambient * 100).toFixed(1)}% O2 · ${p.pressure_bar.toFixed(2)} bar · ${p.burn_s} s${cut ? ', still burning when fuel was cut' : ', went out on its own'}${p.cool_flame === 'yes' ? ' · cool flame recorded' : ''}</title>`;
+    g += cut ? `<circle cx="${cx}" cy="${cy}" r="4.5" style="fill:var(--surface);stroke:var(--s2);stroke-width:2">${t}</circle>`
+             : `<circle cx="${cx}" cy="${cy}" r="4.5" style="fill:var(--s1);stroke:var(--surface);stroke-width:1.5;opacity:.85">${t}</circle>`;
+  });
+  const S = A.cfig_summary.by_o2, lo = S.find(b => b.o2_band === 'about 21%'), hi = S.find(b => b.o2_band === '33 to 40%');
+  if (w >= 560) {
+    g += `<text class="lbl" x="${X(21) + 10}" y="${Y(120)}">21%: ${lo.self_extinguished} of ${lo.ignited} went out,</text><text class="lbl" x="${X(21) + 10}" y="${Y(120) + 15}">median ${lo.median_self_ext_s} s</text>`;
+    g += `<text class="lbl" x="${X(35)}" y="${Y(4.5)}">33–40%: median ${hi.median_self_ext_s} s,</text><text class="lbl" x="${X(35)}" y="${Y(4.5) + 15}">${hi.still_burning_when_fuel_cut} still burning at cut-off</text>`;
+  }
+  $('#oxygenNote').textContent = `${pts.length} lit normal flames from NASA PSI table PSI-159 (CFI-G, 2021): ethane, propane and butane, some diluted, at 0.5 to 3 bar. At about 21% O₂ all ${lo.ignited} lit flames went out by themselves (median ${lo.median_self_ext_s} s, longest ${lo.max_self_ext_s} s). At 33 to 40% O₂, ${hi.self_extinguished} went out after a median ${hi.median_self_ext_s} s (longest ${hi.max_self_ext_s} s) and ${hi.still_burning_when_fuel_cut} were still burning when the fuel was cut. Fuel, flow and pressure also vary between tests, so this is a pattern, not a controlled experiment; these are gas flames, not cabin materials. See C-36.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="CFI-G flame duration against chamber oxygen">${g}</svg>`;
+}
+
+function drawBoundary(w) {
+  const h = 360, m = { l: 48, r: 14, t: 14, b: 44 }, log = state.scale === 'log';
+  const a0 = log ? 1 : 0, a1 = 160, X = log ? logS(a0, a1, m.l, w - m.r) : lin(a0, a1, m.l, w - m.r), Y = lin(12, 22.5, h - m.b, m.t);
+  const xt = log ? [1, 2, 5, 10, 20, 50, 100] : [0, 25, 50, 75, 100, 125, 150];
+  let g = axes(m, w, h, X, Y, xt, [13, 15, 17, 19, 21], v => v, v => v, 'Forced stretch rate a (1/s), a measure of flow', 'Oxygen (%)');
+  const F = B.boundary.fits, q = F.pmma_rod_quench, bo = F.pmma_rod_blowoff;
+  g += `<line x1="${m.l}" x2="${w - m.r}" y1="${Y(bo.C)}" y2="${Y(bo.C)}" style="stroke:var(--ink3);stroke-dasharray:3 4"/>`;
+  g += `<text class="lbl" x="${w - m.r - 4}" y="${Y(bo.C) + 14}" text-anchor="end">13.3% O₂: blowoff fit at zero stretch</text>`;
+  const qs = []; for (let i = 0; i <= 80; i++) qs.push(log ? a0 * Math.pow(12 / a0, i / 80) : 12 * i / 80);
+  g += `<path d="${path(qs.map(a => [X(a), Y(q.A * Math.exp(-q.D * a) + q.C)]))}" style="fill:none;stroke:var(--s3);stroke-width:2.5"/>`;
+  g += `<path d="${path([8, 150].map(a => [X(a), Y(bo.B * a + bo.C)]))}" style="fill:none;stroke:var(--s2);stroke-width:2.5"/>`;
+  const col = { stable: 'var(--s1)', blowoff: 'var(--s2)', quench: 'var(--s3)' };
+  B.boundary.points.forEach(p => {
+    const kind = /stable/.test(p.cls) ? 'stable' : /blowoff/.test(p.cls) ? 'blowoff' : /quench/.test(p.cls) ? 'quench' : null;
+    if (!kind || p.stretch < a0 || p.stretch > a1) return;
+    const cx = X(p.stretch), cy = Y(p.o2), c = col[kind], t = `<title>${esc(p.cls.replace(/_/g, ' '))}: a=${p.stretch}, O2=${p.o2}%</title>`;
+    g += /Drop/.test(p.cls) ? `<path d="M${cx} ${cy - 5.5}l5.5 5.5-5.5 5.5-5.5-5.5z" style="fill:${c};stroke:var(--surface);stroke-width:1;opacity:.9">${t}</path>` : `<circle cx="${cx}" cy="${cy}" r="4.2" style="fill:${c};stroke:var(--surface);stroke-width:1;opacity:.9">${t}</circle>`;
+  });
+  g += `<text class="lbl strong" x="${m.l + 10}" y="${Y(20.5)}">Flame sustained above the curves</text>`;
+  g += `<text class="lbl" x="${X(log ? 1.15 : 8)}" y="${Y(12.45)}">No sustained flame below</text>`;
+  const amb = B.boundary.points.filter(p => p.cls === 'ambiguous_purple_marker').length;
+  $('#boundaryNote').textContent = `Curves are the published fits from Olson and Ferkul 2015: quench O₂ = 7·e^(−0.8a) + 13.3, blowoff O₂ = 0.02a + 13.3. ${B.boundary.points.length - amb} of ${B.boundary.points.length} traced points are plotted; ${amb} could not be classified from the figure and are left out. Stretch rates leave out curvature-induced stretch, so some points sit left of the curve the physics would place them on. The blowoff points were read by hand and do not exactly reproduce the published ISS line, so treat the curves as the reference.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="PMMA flammability boundary, oxygen against stretch rate">${g}</svg>`;
+}
+
+/* ---------- chart: gap map ---------- */
+function drawGap(w) {
+  const C = B.coverage, h = 400, m = { l: 62, r: 16, t: 14, b: 48 };
+  const X = logS(1, 1e7, m.l, w - m.r), Y = logS(1e-7, 3, h - m.b, m.t);
+  let g = '';
+  [[1, '1 s'], [60, '1 min'], [3600, '1 hour'], [86400, '1 day'], [2.6e6, '1 month']].forEach(([v, l]) => { g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${h - m.b}"/><text class="mono" x="${X(v)}" y="${h - m.b + 17}" text-anchor="middle">${l}</text>`; });
+  [-7, -6, -5, -4, -3, -2, -1, 0].forEach(e => { g += `<line class="grid" x1="${m.l}" x2="${w - m.r}" y1="${Y(Math.pow(10, e))}" y2="${Y(Math.pow(10, e))}"/><text class="mono" x="${m.l - 8}" y="${Y(Math.pow(10, e)) + 4}" text-anchor="end">${e === 0 ? '1' : pow10(e)}</text>`; });
+  g += `<line class="axis" x1="${m.l}" x2="${w - m.r}" y1="${h - m.b}" y2="${h - m.b}"/><text x="${(m.l + w - m.r) / 2}" y="${h - 6}" text-anchor="middle">Test duration</text>`;
+  g += `<text x="12" y="${(m.t + h - m.b) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(m.t + h - m.b) / 2})">Gravity (g, Earth = 1)</text>`;
+  const t = C.targets, gy0 = Y(0.5), gy1 = Y(0.1);
+  g += `<rect x="${m.l}" y="${gy0}" width="${w - m.r - m.l}" height="${gy1 - gy0}" style="fill:var(--s2);opacity:.14"/>`;
+  t.forEach(k => { g += `<line x1="${m.l}" x2="${w - m.r}" y1="${Y(k.g)}" y2="${Y(k.g)}" style="stroke:var(--s2);stroke-width:1.5;stroke-dasharray:5 4"/>`; });
+  g += `<text class="lbl strong" x="${w - m.r - 6}" y="${gy1 + 16}" text-anchor="end">Mars 0.379 g · Moon 0.166 g · ${C.records_at_partial_gravity} of ${C.records_total} records</text>`;
+  const short = { tower22: '2.2 s drop tower', zgf: '5.18 s drop facility', kc135: 'KC-135 aircraft', learjet: 'Learjet', rocket: 'Sounding rocket', iss: 'ISS and Cygnus' };
+  C.platforms.forEach(p => {
+    const cx = X(p.seconds), cy = Y(p.g), left = cx > w - 170;
+    g += `<circle cx="${cx}" cy="${cy}" r="6" style="fill:var(--s1);stroke:var(--surface);stroke-width:2"><title>${esc(p.name)}: ${esc(p.note)}</title></circle>`;
+    g += `<text class="lbl strong" x="${cx + (left ? -11 : 11)}" y="${cy + 4}" text-anchor="${left ? 'end' : 'start'}">${short[p.id] || esc(p.name)}${p.approx ? ' ≈' : ''}</text>`;
+  });
+  const lj = C.platforms.find(p => p.id === 'learjet');
+  if (lj) [0.166, 0.333].forEach(gv => { g += `<circle cx="${X(lj.seconds)}" cy="${Y(gv)}" r="5.5" style="fill:var(--surface);stroke:var(--s2);stroke-width:2"><title>Learjet can fly ${gv} g parabolas; no such data in this set</title></circle>`; });
+  g += `<text class="lbl" x="${X(lj.seconds) + 12}" y="${Y(0.25) + 4}">Aircraft can fly 1/6 g and 1/3 g (hollow)</text>`;
+  g += `<text class="lbl" x="${m.l + 6}" y="${Y(1) - 6}">Earth, 1 g</text><line x1="${m.l}" x2="${w - m.r}" y1="${Y(1)}" y2="${Y(1)}" style="stroke:var(--ink3);stroke-width:1.5"/>`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Test platforms by duration and gravity level, with lunar and Mars gravity marked">${g}</svg>`;
+}
+
+/* ---------- panels ---------- */
+function renderTakes() {
+  const L = B.limits, C = B.coverage;
+  const maxDrop = Math.max(...L.map(r => -r.delta_from_table)), maxBurn = Math.max(...L.map(r => r.ulo_0g));
+  $('#takes').innerHTML = [
+    [`${f1(maxDrop)}`, 'points of O₂', `Fuels burned in microgravity at up to ${f1(maxDrop)} points less oxygen than the 1 g standard test predicts.`],
+    [`${30 - maxBurn}–${34 - maxBurn}`, 'points above', `Planned exploration cabins (30 to 34% O₂) sit ${30 - maxBurn} to ${34 - maxBurn} points above the highest 0 g burning limit of the three fuels (limits measured at 10.2 and 14.7 psia).`],
+    [`${C.records_at_partial_gravity} of ${C.records_total}`, 'records', 'No record in this evidence base was measured at lunar or Mars gravity, the conditions crews will actually live in.']
+  ].map(([n, u, t]) => `<div class="take"><div class="n">${n}<small>${u}</small></div><p>${t}</p></div>`).join('');
+}
+function renderPresets() {
+  $('#presets').innerHTML = B.presets.map(p => `<button class="chip" data-id="${p.id}" aria-pressed="${state.preset === p.id}">${esc(p.name)}</button>`).join('');
+  $('#presets').querySelectorAll('button').forEach(b => b.onclick = () => {
+    const p = B.presets.find(x => x.id === b.dataset.id);
+    state.o2 = p.o2; state.psia = p.psia; state.flow = p.flow; state.preset = p.id; syncControls(); update();
+  });
+}
+function syncControls() {
+  ['o2', 'psia', 'flow'].forEach(k => { $('#' + k).value = state[k]; });
+  $('#o2v').textContent = f1(state.o2) + ' %'; $('#psiav').textContent = f1(state.psia) + ' psia'; $('#flowv').textContent = f1(state.flow) + ' cm/s';
+  const p = B.presets.find(x => x.id === state.preset);
+  $('#presetNote').textContent = p ? p.note : 'Custom atmosphere';
+  $('#presets').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === state.preset)));
+}
+function renderReadout() {
+  const r = predict(state.o2, state.flow, state.psia);
+  $('#vout').innerHTML = `${f2(r.mean)}<small>cm/s</small>`;
+  $('#vrange').textContent = `95% range ${f2(r.lo)} to ${f2(r.hi)} cm/s`;
+  $('#status').innerHTML = r.ok ? '<span class="pill ok">Inside the tested range</span>' : '<span class="pill warn">Extrapolating beyond the tested range</span>';
+  $('#warns').innerHTML = r.warns.map(w => `<li>${esc(w.msg)}</li>`).join('');
+  const rows = B.limits.map(l => {
+    const margin = state.o2 - l.ulo_0g, burns = margin >= 0;
+    return `<tr><td>${esc(l.fuel.split(' ')[0])}<div class="hint">${l.pressure_psia} psia</div></td><td class="num">${l.ulo_0g}%</td><td class="num">${margin >= 0 ? '+' : '−'}${Math.abs(margin).toFixed(1)}</td><td><span class="pill ${burns ? 'bad' : 'ok'}">${burns ? 'Burned at this O₂' : 'Did not burn at this O₂'}</span></td></tr>`;
+  }).join('');
+  $('#margins').innerHTML = `<tr><th>Fuel</th><th class="num">0 g limit</th><th class="num">Margin</th><th>Result</th></tr>${rows}`;
+}
+function update() { renderReadout(); redraw(); renderCatalog(); }
+
+function drawSoot(w) {
+  const S = B.soot; if (!S) return '';
+  const sets = ['ISS crew still camera', 'ACME coflow burner', 'ACME spherical burner', 'ACME flat burner (BRE)'];
+  const narrow = w < 520, rowH = narrow ? 62 : 46, m = { l: narrow ? 14 : Math.min(170, Math.max(110, w * 0.3)), r: 18, t: 10, b: 40 }, h = m.t + m.b + sets.length * rowH;
+  const X = lin(-0.04, 1.04, m.l, w - m.r);
+  let g = '';
+  [0, 0.25, 0.5, 0.75, 1].forEach(v => { g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${h - m.b}"/><text class="mono" x="${X(v)}" y="${h - m.b + 16}" text-anchor="middle">${v}</text>`; });
+  g += `<text x="${X(0)}" y="${h - 6}" text-anchor="start">all blue</text><text x="${X(1)}" y="${h - 6}" text-anchor="end">all soot</text>`;
+  sets.forEach((name, i) => {
+    const pts = S.scores.filter(p => p.set === name && p.score != null), n = `${pts.length} image${pts.length === 1 ? '' : 's'}`;
+    const cy = m.t + i * rowH + rowH / 2 + (narrow ? 10 : 0);
+    g += narrow ? `<text x="${m.l}" y="${cy - 18}">${esc(name)} <tspan class="mono" style="fill:var(--ink3)">· ${n}</tspan></text>`
+                : `<text x="${m.l - 10}" y="${cy - 3}" text-anchor="end">${esc(name)}</text><text class="mono" x="${m.l - 10}" y="${cy + 12}" text-anchor="end" style="fill:var(--ink3)">${n}</text>`;
+    pts.forEach((p, k) => {
+      const dy = ((k % 3) - 1) * 7;  // small vertical offset so overlapping scores stay visible
+      g += `<circle cx="${X(p.score)}" cy="${cy + dy}" r="5" style="fill:var(--s1);stroke:var(--surface);stroke-width:2;opacity:.9"><title>${esc(p.id)} · ${esc(p.investigation)} · ${esc(p.date)} · soot score ${p.score.toFixed(2)}</title></circle>`;
+    });
+  });
+  const n = S.scores.filter(p => p.score != null).length, ex = S.scores.filter(p => p.excluded);
+  $('#sootNote').textContent = `${n} images scored. Not scored: ${ex.length} (${ex.filter(p => p.set.startsWith('SPICE')).length} SPICE video frames, where the overexposed video shows no blue at all; one ISS photo with orange-lit hardware in frame; one flame too dim to measure). Compare dots within a row: each camera has its own exposure and colour balance.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Soot score of each flame image, grouped by camera">${g}</svg>`;
+}
+
+/* ---------- learning from history ---------- */
+function claimChip(id) {
+  const c = B.evidence.find(e => e.id === id);
+  return c ? `<details class="cl"><summary>${esc(id)}</summary><div class="cbody">${esc(c.claim)}<div class="hint" style="margin-top:6px">${esc(c.source)}</div></div></details>` : '';
+}
+function renderHistory() {
+  const H = B.history; if (!H) return;
+  $('#histCards').innerHTML = H.events.map(e => {
+    const [lead, ...rest] = e.links.map(l => l.text);
+    return `<article class="hcard">
+    <div><p class="when">${esc(e.date)} · ${esc(e.place)}</p><h3 class="t">${esc(e.title)}</h3><p class="crew">${esc(e.crew)}</p></div>
+    <p class="sum">${esc(e.summary)}</p>
+    <dl>${e.facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+    <div><h4>What NASA changed</h4><ul>${e.changed.map(c => `<li>${esc(c)}</li>`).join('')}</ul></div>
+    <div class="hlinks"><h4>What BurnBook's data says</h4>${e.links.map(l => {
+      const i = l.text.indexOf('. '), head = i > 0 ? l.text.slice(0, i + 1) : '', body = i > 0 ? l.text.slice(i + 2) : l.text;
+      return `<div class="hlink"><p>${head ? `<b>${esc(head)}</b> ` : ''}${esc(body)}</p>${l.claims.length ? `<div class="cls">${l.claims.map(claimChip).join('')}</div>` : ''}</div>`;
+    }).join('')}</div>
+    <div class="hsrc"><span>Sources</span>${e.sources.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a>`).join('')}</div>
+    ${e.data_notes.length ? `<details class="dn"><summary>Where the NASA pages disagree or leave gaps (${e.data_notes.length})</summary><ul>${e.data_notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul></details>` : ''}
+  </article>`; }).join('');
+}
+function histRefs() {
+  const inv = B.catalog.investigations.filter(i => i.data_level !== 'none' && i.o2[1] != null);
+  const iss = inv.filter(i => /ISS/.test(i.platform || '')), tower = inv.filter(i => /drop/i.test((i.platform || '') + ' ' + (i.facility || '') + ' ' + i.name));
+  const top = a => a.reduce((m, i) => i.o2[1] > m.o2[1] ? i : m, a[0]);
+  return { iss: top(iss), tower: tower.length ? top(tower) : null };
+}
+function drawHist(w) {
+  const H = B.history; if (!H) return '';
+  const A = H.atmospheres, R = histRefs(), narrow = w < 560, CW = 6.9;  // CW: approx width of one mono character at 11.5px
+  const rowH = narrow ? 66 : 36, m = { l: narrow ? 8 : Math.min(250, Math.max(170, w * 0.3)), r: narrow ? 12 : 24, t: narrow ? 48 : 34, b: 30 }, h = m.t + m.b + A.length * rowH;
+  const X = lin(0, 100, m.l, w - m.r);
+  let g = '', lines = '';
+  [0, 25, 50, 75, 100].forEach(v => { g += `<line class="grid" x1="${X(v)}" x2="${X(v)}" y1="${m.t - 6}" y2="${h - m.b}"/><text class="mono" x="${X(v)}" y="${h - m.b + 16}" text-anchor="middle">${v}%</text>`; });
+  const refs = [[R.iss, `ISS tests ${R.iss.o2[1]}%`], [R.tower, R.tower ? `drop tower ${R.tower.o2[1]}% (5 s)` : '']].filter(r => r[0]);
+  refs.forEach(([inv, lab], k) => {
+    const x = X(inv.o2[1]), ly = m.t - 12 - (narrow && k ? 16 : 0);
+    const st = 'stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 3';
+    if (narrow) {  // on phones, draw the line only through the bar rows so it never crosses the row labels
+      lines += `<line x1="${x}" x2="${x}" y1="${ly + 4}" y2="${m.t}" style="${st}"/>`;
+      A.forEach((_, i) => { const y = m.t + i * rowH + 20; lines += `<line x1="${x}" x2="${x}" y1="${y - 3}" y2="${y + 17}" style="${st}"/>`; });
+    } else lines += `<line x1="${x}" x2="${x}" y1="${ly + 4}" y2="${h - m.b}" style="${st}"/>`;
+    g += `<text x="${x}" y="${ly}" text-anchor="${k ? 'end' : 'start'}" dx="${k ? -4 : 4}">${esc(lab)}</text>`;
+  });
+  g += lines;  // reference lines sit under the bars, so a bar crossing a line stays solid
+  A.forEach((a, i) => {
+    const y = m.t + i * rowH + (narrow ? 20 : 8), bh = narrow ? 14 : 18, col = a.kind === 'history' ? 'var(--s2)' : 'var(--s1)';
+    const info = `${a.o2_pct}% · ${a.psia} psia · O₂ ${(a.o2_pct / 100 * a.psia).toFixed(1)} psi`, bw = X(a.o2_pct) - X(0);
+    g += narrow ? `<text x="${m.l}" y="${y - 6}">${esc(a.label)}</text>` : `<text x="${m.l - 10}" y="${y + bh / 2 + 4}" text-anchor="end">${esc(a.label)}</text>`;
+    g += `<rect x="${X(0)}" y="${y}" width="${bw}" height="${bh}" rx="2" style="fill:${col}"><title>${esc(a.label)}: ${a.o2_pct}% oxygen at ${a.psia} psia${a.note ? ' (' + esc(a.note) + ')' : ''}</title></rect>`;
+    if (narrow) { g += `<text class="mono" x="${m.l}" y="${y + bh + 14}" style="fill:var(--ink3)">${info}</text>`; return; }
+    const inside = bw > info.length * CW + 16;
+    g += `<text class="mono${inside ? '' : ' lbl'}" x="${inside ? X(a.o2_pct) - 8 : X(a.o2_pct) + 8}" y="${y + bh / 2 + 4}" text-anchor="${inside ? 'end' : 'start'}" style="${inside ? 'fill:var(--surface)' : ''}">${info}</text>`;
+  });
+  $('#histNote').textContent = `O₂ partial pressure is the oxygen share times the cabin pressure. The Apollo 1 cabin held about five times the oxygen partial pressure of today's ISS air. Dashed lines mark the highest oxygen in BurnBook's data: ${R.iss.name} on the ISS (${R.iss.o2[1]}%)${R.tower ? ` and ${R.tower.name}, 5-second drop-tower tests (${R.tower.o2[1]}%)` : ''}. Where NASA pages give two pressures, the hover text names the other.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Oxygen share of cabin air for Apollo-era and current spacecraft atmospheres">${g}</svg>`;
+}
+
+/* ---------- investigation catalog ---------- */
+const CAT_W = { fuel: 3, oxygen: 2, pressure: 2, airflow: 1, scale: 1, data: 1 };
+const CAT_FUEL = { solid_material: 1, solid_material_smoke: 0.8, gas_emulating_solid: 0.6, gas_flame: 0.3, liquid_droplet: 0.3, dust: 0 };
+const CAT_SCALE = { large: 1, sample: 0.6, burner: 0.4, droplet: 0.3, none: 0.3 };
+const CAT_DATA = { full: 1, summary: 0.5, images: 0.25, manifest: 0.25, none: 0 };
+const CAT_LABEL = { fuel: 'Fuel is a cabin material', oxygen: 'Oxygen tested', pressure: 'Pressure tested', airflow: 'Ventilation-like airflow', scale: 'Fire size', data: 'Data in BurnBook' };
+const DATA_PILL = { full: ['ok', 'Per-test data'], summary: ['warn', 'Summary only'], images: ['neutral', 'Images'], manifest: ['neutral', 'Test list'], none: ['bad', 'None yet'] };
+const catState = { phase: '', only: false, open: null, summaries: {} };
+function rangeScore(t, lo, hi, fall) {
+  if (lo == null && hi == null) return 0.25;
+  if (lo == null) lo = hi; if (hi == null) hi = lo;
+  return Math.max(0, 1 - Math.max(0, lo - t, t - hi) / fall);
+}
+function catParts(inv, o2, kpa) {  // same formula as api/catalog.py
+  const [plo, phi] = inv.pressure_kpa, [flo, fhi] = inv.flow_cm_s;
+  const pressure = (plo == null && phi != null) ? (kpa <= phi ? 0.6 : Math.max(0, 1 - (kpa - phi) / 30)) : rangeScore(kpa, plo, phi, 30);
+  const airflow = (flo != null && fhi != null && fhi >= 5 && flo <= 30) ? 1 : inv.quiescent ? 0.6 : 0.25;
+  return { fuel: CAT_FUEL[inv.fuel_class] ?? 0, oxygen: rangeScore(o2, inv.o2[0], inv.o2[1], 10), pressure, airflow, scale: CAT_SCALE[inv.scale] ?? 0.3, data: CAT_DATA[inv.data_level] ?? 0 };
+}
+function rankInvestigations(o2, psia) {
+  const kpa = psia * 6.894757, wsum = Object.values(CAT_W).reduce((a, b) => a + b, 0);
+  return B.catalog.investigations.map(inv => {
+    const p = catParts(inv, o2, kpa), score = Math.round(1000 * Object.keys(CAT_W).reduce((a, k) => a + CAT_W[k] * p[k], 0) / wsum) / 10;
+    return { ...inv, parts: p, score };
+  }).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name)).map((r, i) => ({ ...r, rank: i + 1 }));
+}
+const rng = (a, b, u) => a == null && b == null ? '<span class="sub">not stated</span>' : (a == null && b != null) ? `up to ${b}${u}<span class="sub">lower values not listed</span>` : (b == null || a === b) ? `${a}${u}` : `${a}–${b}${u}`;
+function catFlow(inv) {
+  const [a, b] = inv.flow_cm_s, f = (a != null || b != null) ? rng(a, b, ' cm/s') : '';
+  return inv.quiescent ? (f ? f + '<span class="sub">and still air</span>' : 'Still air') : (f || '<span class="sub">not stated</span>');
+}
+function renderCatalog() {
+  if (!B.catalog) { $('#catalog').hidden = true; return; }
+  const o2 = state.o2, psia = state.psia, kpa = Math.round(psia * 6.894757);
+  $('#catTarget').innerHTML = `Ranked for <b>${o2}% O₂ at ${psia} psia (${kpa} kPa)</b>, the cabin set in the scenario above.`;
+  const phases = [['', 'All'], ['solid', 'Solid materials'], ['gas', 'Gas flames'], ['liquid', 'Liquid droplets'], ['none', 'Other']];
+  $('#catPhase').innerHTML = phases.map(([v, l]) => `<button class="chip" data-v="${v}" aria-pressed="${catState.phase === v}">${l}</button>`).join('');
+  $('#catPhase').querySelectorAll('button').forEach(b => b.onclick = () => { catState.phase = b.dataset.v; renderCatalog(); });
+  const all = rankInvestigations(o2, psia);
+  const rows = all.filter(r => (!catState.phase || r.fuel_phase === catState.phase) && (!catState.only || r.data_level !== 'none'));
+  const head = '<thead><tr><th>#</th><th>Investigation</th><th>Fuel</th><th>O₂ tested</th><th>Pressure</th><th>Airflow</th><th>Relevance</th><th>In BurnBook</th></tr></thead>';
+  const body = rows.map(r => {
+    const [cls, lab] = DATA_PILL[r.data_level] || DATA_PILL.none, open = catState.open === r.id;
+    let h = `<tr class="main" data-id="${esc(r.id)}" tabindex="0" aria-expanded="${open}"><td>${r.rank}</td><td><span class="nm">${esc(r.name)}</span><span class="sub">${esc([r.years, r.platform].filter(Boolean).join(' · '))}</span></td>
+      <td data-l="Fuel">${esc(r.fuel_phase === 'none' ? 'not a fire' : r.fuel_phase)}<span class="sub">${esc(r.materials || '')}</span></td><td class="num" data-l="O₂">${rng(r.o2[0], r.o2[1], '%')}</td><td class="num" data-l="Pressure">${rng(r.pressure_kpa[0], r.pressure_kpa[1], ' kPa')}</td>
+      <td data-l="Airflow">${catFlow(r)}</td><td data-l="Relevance"><div class="rel"><div class="relbar"><i style="width:${r.score}%"></i></div><b>${Math.round(r.score)}</b></div></td><td data-l="In BurnBook"><span class="pill ${cls}">${lab}</span></td></tr>`;
+    if (open) {
+      const parts = Object.keys(CAT_W).map(k => `<span>${CAT_LABEL[k]} <em>×${CAT_W[k]}</em></span><div class="relbar"><i style="width:${Math.round(r.parts[k] * 100)}%"></i></div><em>${r.parts[k].toFixed(2)}</em>`).join('');
+      const dl = [['Objective', r.objective], ['Facility', r.facility], ['Sample or burner', r.geometry], ['What was varied', r.variables], ['Sensors', r.sensors], ['In BurnBook', r.in_burnbook ? r.in_burnbook + (r.api ? ` (${r.api})` : '') : 'Nothing yet'], ['Evidence', r.claims.join(', ')], ['Gaps', r.unknowns], ['Sources', r.sources]]
+        .filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
+      const sm = catState.summaries[r.id + '|' + o2 + '|' + psia];
+      h += `<tr class="det"><td colspan="8"><div class="det-grid"><dl>${dl}</dl><div><p class="hint" style="margin-bottom:6px">Why it scores ${Math.round(r.score)}: each part is 0 to 1, weighted as shown.</p><div class="parts">${parts}</div>
+        <div class="sumbox" id="sum-${esc(r.id)}">${sm ? sumHtml(sm) : `<button class="btn" data-sum="${esc(r.id)}">Summarise for this cabin</button>`}</div></div></div></td></tr>`;
+    }
+    return h;
+  }).join('');
+  $('#catTable').innerHTML = head + '<tbody>' + body + '</tbody>';
+  $('#catTable').querySelectorAll('tr.main').forEach(tr => {
+    const toggle = () => { catState.open = catState.open === tr.dataset.id ? null : tr.dataset.id; renderCatalog(); };
+    tr.onclick = toggle; tr.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } };
+  });
+  $('#catTable').querySelectorAll('[data-sum]').forEach(b => b.onclick = e => { e.stopPropagation(); summarise(b.dataset.sum); });
+  const top = all[0];
+  $('#catNote').textContent = `${rows.length} of ${all.length} investigations shown. For this cabin the closest match is ${top.name} (${Math.round(top.score)}). Investigations with no data in BurnBook still appear, so the gaps are visible. Ranges come from the sources listed in each row; "not stated" means our sources do not give it, and it scores 0.25 rather than zero.`;
+}
+function sumHtml(sm) {
+  const who = sm.mode === 'llm' ? `Written by ${esc(sm.provider)} from this row and its claims only; check the citations.` : esc(sm.note || 'Built from the catalog fields.');
+  return `<div class="answer${sm.mode === 'llm' ? '' : ' plain'}"><p>${esc(sm.summary)}</p><p class="hint" style="margin-top:8px">${who}</p></div>`;
+}
+async function summarise(id) {
+  const box = $('#sum-' + id); box.innerHTML = '<p class="hint">Summarising</p>';
+  const key = id + '|' + state.o2 + '|' + state.psia, inv = B.catalog.investigations.find(i => i.id === id);
+  let res = null;
+  if (live) {
+    try { const r = await fetch(`/api/investigations/${encodeURIComponent(id)}/summary`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ o2: state.o2, psia: state.psia }) }); if (r.ok) res = await r.json(); } catch (e) { /* fall back */ }
+  }
+  if (!res) res = { mode: 'template', summary: inv.template_summary, note: live ? 'The server could not summarise; built from the catalog fields.' : 'This copy runs without the server, so the summary is built from the catalog fields. With the server and a language model configured, a written summary appears here.' };
+  catState.summaries[key] = res; box.innerHTML = sumHtml(res);
+}
+
+/* ---------- FLEX suppressants ---------- */
+const flexState = { fuel: 'methanol', p: '1' };
+const FLEX_P = { '1': [95, 110, 'about 1 atm'], '0.7': [65, 76, 'about 0.7 atm'], 'hi': [150, 400, '2 to 3 atm'] };
+function flexDil(t) { return t.x_he ? 'he' : t.x_co2 ? 'co2' : 'n2'; }
+function renderFlexControls() {
+  const chips = (id, opts, key) => {
+    $(id).innerHTML = opts.map(([v, l]) => `<button class="chip" data-v="${v}" aria-pressed="${flexState[key] === v}">${l}</button>`).join('');
+    $(id).querySelectorAll('button').forEach(b => b.onclick = () => { flexState[key] = b.dataset.v; renderFlexControls(); redraw(); });
+  };
+  chips('#flexFuel', [['methanol', 'Methanol'], ['heptane', 'n-Heptane']], 'fuel');
+  chips('#flexP', [['1', 'About 1 atm'], ['0.7', 'About 0.7 atm'], ['hi', '2 to 3 atm']], 'p');
+}
+function drawFlex(w) {
+  if (!B.flex) return '';
+  const h = 340, m = { l: 52, r: 16, t: 14, b: 44 }, [plo, phi, plabel] = FLEX_P[flexState.p];
+  const X = lin(10, 36, m.l, w - m.r), Y = lin(0, 1, h - m.b, m.t);
+  let g = axes(m, w, h, X, Y, w < 520 ? [10, 15, 20, 25, 30, 35] : [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36], [0, 0.25, 0.5, 0.75, 1], v => v + '%', v => Math.round(v * 100) + '%', 'Oxygen in the chamber (% by volume)', 'Share of the droplet that burned');
+  const all = B.flex.filter(t => t.fuel === flexState.fuel && t.pressure_kpa >= plo && t.pressure_kpa <= phi);
+  const pts = all.filter(t => t.fraction_burned != null && t.x_o2 != null && (t.end === 'extinction' || t.end === 'completion'));
+  const cab = state.o2;
+  if (cab >= 10 && cab <= 36) {
+    g += `<line x1="${X(cab)}" x2="${X(cab)}" y1="${m.t}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 4"/>`;
+    g += `<text class="lbl strong" x="${X(cab) + (X(cab) > w - 140 ? -6 : 6)}" y="${m.t + 12}" text-anchor="${X(cab) > w - 140 ? 'end' : 'start'}">Your cabin: ${cab}% O₂</text>`;
+  }
+  const col = { n2: 'var(--s1)', co2: 'var(--s2)', he: 'var(--s3)' }, name = { n2: 'nitrogen only', co2: 'CO2', he: 'helium' };
+  const order = { n2: 0, co2: 1, he: 2 };
+  pts.slice().sort((a, b) => order[flexDil(a)] - order[flexDil(b)]).forEach((p, i) => {
+    const d = flexDil(p), jit = ((i % 5) - 2) * 0.12, cx = X(p.x_o2 * 100 + jit), cy = Y(p.fraction_burned), c = col[d], r = 3.2 + Math.max(0, Math.min(4.7, (p.d0_mm || 3) - 1)) * 1.1;
+    const tip = `<title>${esc(p.id)} (${esc(p.identifier)}) · ${esc(p.fuel)} · ${(p.x_o2 * 100).toFixed(0)}% O2${p.x_co2 ? ', ' + Math.round(p.x_co2 * 100) + '% CO2' : ''}${p.x_he ? ', ' + Math.round(p.x_he * 100) + '% He' : ''} · ${p.pressure_kpa} kPa · ${p.d0_mm} mm droplet · ${Math.round(p.fraction_burned * 100)}% burned${p.burn_s != null ? ' in ' + p.burn_s + ' s' : ''} · ended by ${esc(p.end)}</title>`;
+    const st = `style="fill:${c};stroke:var(--surface);stroke-width:1.5;opacity:.9"`;
+    g += d === 'n2' ? `<circle cx="${cx}" cy="${cy}" r="${r}" ${st}>${tip}</circle>`
+       : d === 'co2' ? `<rect x="${cx - r * 0.9}" y="${cy - r * 0.9}" width="${r * 1.8}" height="${r * 1.8}" ${st}>${tip}</rect>`
+       : `<path d="M${cx} ${cy - r * 1.2} L${cx + r * 1.1} ${cy + r * 0.8} L${cx - r * 1.1} ${cy + r * 0.8} Z" ${st}>${tip}</path>`;
+  });
+  if (!pts.length) g += `<text class="lbl" x="${(m.l + w - m.r) / 2}" y="${(m.t + h - m.b) / 2}" text-anchor="middle">No ${esc(flexState.fuel)} tests with a measured result at ${plabel}</text>`;
+  const n = { n2: 0, co2: 0, he: 0 }; pts.forEach(p => n[flexDil(p)]++);
+  $('#flexNote').textContent = `${pts.length} of ${all.length} ${flexState.fuel} tests at ${plabel} ended by flame extinction or burnout with a measured size (NASA PSI table PSI-69, ISS FLEX 2009–2011; tests where the droplet broke apart are left out): ${n.n2} nitrogen only, ${n.co2} with CO₂, ${n.he} with helium. Share burned = 1 − (extinction diameter ÷ starting diameter)², or 100% if the droplet burned out. Bigger droplets go out sooner, so compare marks of similar size; hover for each test. Dots are nudged sideways slightly so overlapping tests stay visible. Liquid fuel droplets, not cabin materials. See C-41 and C-42.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="FLEX droplet share burned against oxygen, by diluent gas">${g}</svg>`;
+}
+
+function renderGallery() {
+  const G = B.gallery || [];
+  $('#gallery').hidden = !G.length;
+  if (B.soot && B.soot.example_src) $('#sootEx').src = B.soot.example_src; else $('#sootPanel').hidden = true;
+  $('#gal').innerHTML = G.map(g => `<figure><img src="${g.src}" alt="${esc(g.caption)}" loading="lazy"><figcaption><span>${esc(g.caption)}</span>${g.soot_score != null ? `<span class="ss">Soot score ${g.soot_score.toFixed(2)}</span>` : ''}<span class="cr">${esc(g.investigation)} · ${g.expedition ? 'Expedition ' + g.expedition + ', ' + g.year : esc(g.date || String(g.year))}${g.claims.length ? ' · see ' + g.claims.map(esc).join(', ') : ''} · ${esc(g.credit)}</span></figcaption></figure>`).join('');
+}
+
+function renderSaffire() {
+  const S = B.saffire, L = S.limits, co2Max = 4, coMax = 450;
+  const bar = (v, max, over, lims, unit) => v == null ? '<span class="hint">not reported</span>' :
+    `<div class="track"><div class="bar ${over ? 'over' : ''}" style="width:${Math.min(100, v / max * 100)}%"></div>${lims.map(l => `<div class="lim" style="left:${l / max * 100}%"></div>`).join('')}</div><div class="val">${v} ${unit}</div>`;
+  const shown = S.tests.filter(t => t.co2_mmhg != null || t.co_ppm != null);
+  $('#sfRows').innerHTML = shown.map(t => `<div class="sf-row"><div class="nm">${esc(t.material)}<span>Saffire ${esc(t.flight)} · ${t.o2_pct}% O₂ · ${t.flow_cm_s} cm/s${t.direction === 'opposed' ? ' opposed' : ''}${t.peak_hrr_w ? ' · peak ' + (t.peak_hrr_w / 1000).toFixed(1) + ' kW' : ''}</span></div>
+    <div>${bar(t.co2_mmhg, co2Max, t.exceeds_co2_1h, [L.co2_1h_mmhg], 'mmHg')}</div>
+    <div>${t.co_ppm == null && /^(I|III)-/.test(t.flight) ? '<span class="hint">no CO sensor on this flight</span>' : bar(t.co_ppm, coMax, t.exceeds_co_24h, [L.co_24h_ppm, L.co_1h_ppm], 'ppm')}</div></div>`).join('');
+  const G = S.tests.filter(t => t.co2_mmhg != null || t.co_ppm != null), n2 = G.filter(t => t.exceeds_co2_1h).length, n24 = G.filter(t => t.exceeds_co_24h).length, n1 = G.filter(t => t.co_ppm > L.co_1h_ppm).length;
+  const F = S.flammability || [];
+  const res = (len, rate) => [len || '—', rate ? (isNaN(+rate) ? rate : rate + ' mm/s') : ''].filter(Boolean).join(' · ');
+  $('#s2Table').innerHTML = '<thead><tr><th>Sample</th><th>Material</th><th class="num">Thickness</th><th>Microgravity</th><th>Earth (1 g)</th><th>Orbit sensors</th></tr></thead><tbody>' +
+    F.map(f => `<tr><td>${esc(f.sample)}${f.direction === 'opposed' ? ' <span class="hint">opposed</span>' : ''}</td><td>${esc(f.material)}${f.material_inferred ? '<span class="hint"> (assumed)</span>' : ''}</td><td class="num">${f.thickness_mm != null ? f.thickness_mm + ' mm' : esc(f.thickness_as_printed)}</td><td>${esc(res(f.ug_burn, f.ug_rate_mm_s))}</td><td>${esc(res(f.g1_burn, f.g1_rate))}</td><td>${f.sensors ? `CO₂ +${f.sensors.co2_rise_ppm} ppm<span class="sub">flame seen ${f.sensors.radiometer_seen_s} s · sample up to ${Math.round(f.sensors.peak_sample_tc_c)} °C</span>` : '<span class="hint">not loaded</span>'}</td></tr>`).join('') + '</tbody>';
+  $('#s2Note').textContent = 'Burn lengths and spread rates as printed in NASA PSI table PSI-99. Silicone did not burn in orbit but did on the ground; thick PMMA stayed anchored for 10 to 15 minutes in orbit without spreading. Two rows have blank material cells and are assumed to match the row above. Orbit sensors: cabin CO₂ rise (peak of a 10 s mean), how long the radiometers saw flame, and the hottest thermocouple embedded in the sample, from the Saffire-II sensor files for samples 1, 5, 7 and 9.';
+  $('#sfNote').textContent = `CO limits are NASA's spacecraft maximum allowable concentrations (JSC 20584 Rev C, 2024; C-48); the CO₂ limit is the one quoted in the Saffire VI presentation. ${n2} of the ${G.length} tests with gas readings exceeded the CO₂ limit, ${n24} exceeded the 24-hour CO limit and ${n1} exceeded the 1-hour CO limit. Peak heat release is from oxygen calorimetry where reported. ${S.tests.length - G.length} Saffire-I and III burns have no gas readings in their NASA tables and are not charted.`;
+}
+
+/* ---------- evidence + ask ---------- */
+const STOP = new Set('a an and are as at be but by can do does for from has have how i in into is it its of on or so than that the their there these this to was were what when where which who why will with would you your'.split(' '));
+function toks(t) { return (t.toLowerCase().match(/[a-z0-9]+/g) || []).filter(x => !STOP.has(x) && x.length > 1).map(x => { for (const s of ['ing', 'ed', 'es', 's']) if (x.endsWith(s) && x.length - s.length >= 3) return x.slice(0, -s.length); return x; }); }
+let IDX = null;
+function buildIdx() {
+  const docs = B.evidence.map(c => { const m = new Map(); toks([c.topic, c.claim, c.conditions, c.source, c.caveat].join(' ')).forEach(t => m.set(t, (m.get(t) || 0) + 1)); return m; });
+  const df = new Map(); docs.forEach(d => d.forEach((_, t) => df.set(t, (df.get(t) || 0) + 1)));
+  const n = docs.length, avg = docs.reduce((a, d) => a + [...d.values()].reduce((x, y) => x + y, 0), 0) / n;
+  IDX = { docs, idf: t => Math.log(1 + (n - (df.get(t) || 0) + .5) / ((df.get(t) || 0) + .5)), avg };
+}
+function search(q, topic, k = 50) {
+  if (!IDX) buildIdx();
+  const qt = toks(q), out = [];
+  B.evidence.forEach((c, i) => {
+    if (topic && c.topic !== topic) return;
+    let s = 0; const d = IDX.docs[i], dl = [...d.values()].reduce((a, b) => a + b, 0);
+    qt.forEach(t => { const f = d.get(t) || 0; if (f) s += IDX.idf(t) * (f * 2.2) / (f + 1.2 * (.25 + .75 * dl / IDX.avg)); });
+    if (!qt.length || s > 0) out.push([s, c]);
+  });
+  if (qt.length) out.sort((a, b) => b[0] - a[0]);
+  return out.slice(0, k).map(x => x[1]);
+}
+function evCard(c) {
+  return `<article class="ev-item"><div class="meta"><span class="id">${esc(c.id)}</span><span class="pill neutral">${esc(c.topic)}</span><span class="pill neutral">${esc(c.evidence_type)}</span></div><p class="claim">${esc(c.claim)}</p>
+  <dl><dt>Conditions</dt><dd>${esc(c.conditions)}</dd><dt>Source</dt><dd>${esc(c.source)}, ${esc(c.location)}</dd><dt>Caveat</dt><dd>${esc(c.caveat)}</dd></dl></article>`;
+}
+function renderEvidence() {
+  const topics = [...new Set(B.evidence.map(e => e.topic))];
+  $('#topics').innerHTML = `<button class="chip" data-t="" aria-pressed="${state.topic === ''}">All topics</button>` + topics.map(t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${state.topic === t}">${esc(t)}</button>`).join('');
+  $('#topics').querySelectorAll('button').forEach(b => b.onclick = () => { state.topic = b.dataset.t; renderEvidence(); });
+  const res = search($('#q').value, state.topic);
+  $('#evList').innerHTML = res.length ? res.map(evCard).join('') : '<p class="hint">No claim matches. Try a broader word such as flame, oxygen or smoke.</p>';
+}
+async function askQuestion(q) {
+  const out = $('#askOut'); out.innerHTML = '<p class="hint" style="margin-top:12px">Searching</p>';
+  let res = null;
+  if (live) {
+    try { const r = await fetch('/api/ask', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: q }) }); if (r.ok) res = await r.json(); } catch (e) { /* fall back below */ }
+  }
+  if (!res) {
+    const hits = search(q, '', 4);
+    res = hits.length ? { mode: 'retrieval_only', answer: null, evidence: hits, note: live ? 'The server could not answer; showing matching evidence from the local copy.' : 'This copy runs without the server, so it shows the best-matching evidence instead of a written answer.' } : { mode: 'no_match', answer: 'No claim in the evidence base matches this question.', evidence: [] };
+  }
+  const head = res.answer ? `<div class="answer"><p>${esc(res.answer)}</p><p class="hint" style="margin-top:8px">Written from the claims below by ${res.provider ? esc(res.provider) : 'a language model'}; check each citation.</p></div>` : `<div class="answer plain"><p>${esc(res.note || res.answer)}</p></div>`;
+  out.innerHTML = head + `<div class="ev">${(res.evidence || []).map(evCard).join('')}</div>`;
+}
+
+/* ---------- boot ---------- */
+function renderStatic() {
+  const C = B.coverage;
+  $('#gapLede').textContent = C.explanation + ' Aircraft parabolas offer only about 20 seconds of reduced gravity, so closing the gap needs new partial-gravity experiments.';
+  $('#gapNote').textContent = 'Durations and gravity levels are from the 1989 NASA memo where stated; ≈ marks a level inferred from platform type. Hollow circles show what a Learjet parabola can fly but no record in this set uses it.';
+  const L = B.model.loo;
+  $('#limitsNote').textContent = 'Points give the change in oxygen from the 1 g limit to the lowest 0 g burning oxygen, from Olson 2008 Table 1. For Ultem the paper\'s table gives −1.75 but its text says −2.75; the table value is plotted.';
+}
+function setMode() { $('#mode').innerHTML = live ? '<span class="dot live"></span><span>Live API</span>' : '<span class="dot"></span><span>Embedded snapshot, no server</span>'; }
+function boot() {
+  setMode(); renderTakes(); renderHistory(); renderPresets(); renderStatic(); renderSaffire(); renderGallery(); renderCatalog();
+  const p = B.presets.find(x => x.id === state.preset) || B.presets[0];
+  state.o2 = p.o2; state.psia = p.psia; state.flow = p.flow; state.preset = p.id;
+  ['o2', 'psia', 'flow'].forEach(k => $('#' + k).addEventListener('input', e => { state[k] = parseFloat(e.target.value); state.preset = (B.presets.find(x => x.o2 === state.o2 && x.psia === state.psia && x.flow === state.flow) || {}).id || ''; syncControls(); update(); }));
+  $('#scLog').onclick = () => { state.scale = 'log'; $('#scLog').setAttribute('aria-pressed', 'true'); $('#scLin').setAttribute('aria-pressed', 'false'); redraw(); };
+  $('#scLin').onclick = () => { state.scale = 'lin'; $('#scLin').setAttribute('aria-pressed', 'true'); $('#scLog').setAttribute('aria-pressed', 'false'); redraw(); };
+  $('#q').addEventListener('input', renderEvidence);
+  $('#askForm').addEventListener('submit', e => { e.preventDefault(); const q = $('#askQ').value.trim(); if (q.length >= 3) askQuestion(q); });
+  syncControls(); renderReadout(); renderEvidence();
+  mount('cHist', drawHist); mount('cFlow', drawFlow); mount('cX', drawX); mount('cLimits', drawLimits); mount('cOxygen', drawOxygen); renderFlexControls(); mount('cFlex', drawFlex); mount('cSoot', drawSoot); mount('cBoundary', drawBoundary); mount('cGap', drawGap);
+  askQuestion($('#askQ').value);
+}
+(async () => {
+  try {
+    if (/^https?:/.test(location.protocol)) {
+      const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 2500);
+      const r = await fetch('/api/bundle', { signal: ctl.signal }); clearTimeout(t);
+      if (r.ok && /json/.test(r.headers.get('content-type') || '')) { B = await r.json(); live = true; }
+    }
+  } catch (e) { /* use the embedded snapshot */ }
+  if (!B) { document.body.insertAdjacentHTML('afterbegin', '<p style="padding:24px">No data available. Start the API or rebuild the page.</p>'); return; }
+  boot();
+})();
+</script>

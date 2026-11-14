@@ -1,0 +1,65 @@
+point_id,source,outcome_class,forced_stretch_rate_1_per_s,final_o2_vol_pct,extraction_method,notes
+B2-001,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,9.5,14.47,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-002,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,12.7,13.49,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-003,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,12.9,14.09,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-004,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,17.9,14.19,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-005,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,19.1,14.19,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-006,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,31.6,13.49,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-007,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,35.2,14.5,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-008,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,36.0,14.45,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-009,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,52.4,14.29,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-010,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,65.1,14.78,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-011,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,68.2,16.09,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-012,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,73.6,14.8,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-013,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,86.8,15.19,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-014,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,126.4,15.51,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-015,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_blowoff,150.0,16.09,manual,Read by eye from 3-4x zooms of the figure; overlapping X markers may be merged or missed
+B2-016,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,1.74,16.84,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-017,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,1.98,16.15,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-018,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,2.05,15.8,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-019,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,2.73,13.75,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-020,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,2.91,14.58,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-021,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,3.06,15.4,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-022,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_quench,4.24,15.17,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-023,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,1.63,15.43,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-024,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,1.74,17.7,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-025,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,2.33,16.02,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-026,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,2.33,18.0,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-027,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,2.44,15.53,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-028,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,3.37,14.19,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-029,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,3.49,21.9,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-030,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,5.23,16.09,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-031,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,5.23,21.7,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-032,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,6.28,14.29,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-033,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,11.16,14.49,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-034,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,33.49,14.49,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-035,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,37.67,14.48,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-036,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,50.7,14.28,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-037,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,60.47,14.78,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-038,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,66.51,16.09,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-039,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,71.16,14.78,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-040,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,80.12,15.19,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-041,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ISS_stable_flame,110.35,15.52,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-042,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,4.88,16.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-043,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,9.53,15.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-044,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,9.53,16.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-045,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,23.6,13.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-046,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,23.6,15.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-047,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,47.09,14.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-048,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,62.91,14.98,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-049,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,70.81,15.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-050,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_stable_flame,99.07,15.99,automatic,Machine-extracted by color; overlapping markers may be missed
+B2-051,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,46.8,14.0,manual,Read by eye from a 3x zoom of the figure
+B2-052,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,69.0,15.0,manual,Read by eye from a 3x zoom of the figure
+B2-053,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,73.7,15.0,manual,Read by eye from a 3x zoom of the figure
+B2-054,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,94.2,15.0,manual,Read by eye from a 3x zoom of the figure
+B2-055,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,97.4,15.0,manual,Read by eye from a 3x zoom of the figure
+B2-056,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,DropTower_blowoff,141.6,16.0,manual,Read by eye from a 3x zoom of the figure
+B2-057,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,4.65,14.59,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-058,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,8.49,14.38,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-059,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,10.0,14.26,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-060,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,12.09,14.18,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-061,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,13.14,14.09,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-062,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,14.42,14.15,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-063,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,16.98,14.16,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved
+B2-064,Olson and Ferkul 2015 (NTRS 20150008961) Fig 4,ambiguous_purple_marker,19.07,14.16,automatic,Purple marker could be 0.635 cm quench or 0.476 cm drop blowoff; not resolved

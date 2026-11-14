@@ -1,0 +1,23 @@
+point_id,source,x_param_o2frac_x_flow_x_sqrtP,spread_rate_cm_s,marker_category_in_figure,digitization_uncertainty,notes
+K7-01,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),12.49,3.24,oxygen_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-02,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),12.6,3.08,normoxic,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-03,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),12.01,3.41,pressure_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-04,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),11.21,3.37,pressure_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-05,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),10.0,2.8,pressure_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-06,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),9.85,2.97,other_combination,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-07,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),9.65,2.95,normoxic,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-08,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),9.12,2.56,pressure_varies+normoxic,about +/-0.05 in x and +/-0.02 cm/s in y,Two marker types overlap at this location; counted once
+K7-09,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),8.5,2.56,oxygen_varies+velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,Two marker types overlap at this location; counted once
+K7-10,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),8.0,2.8,oxygen_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-11,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),7.49,2.14,oxygen_varies+normoxic,about +/-0.05 in x and +/-0.02 cm/s in y,Two marker types overlap at this location; counted once
+K7-12,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),7.01,2.28,pressure_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-13,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),6.71,2.23,normoxic,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-14,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),5.99,2.06,oxygen_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-15,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),5.46,1.87,other_combination,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-16,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),4.74,1.58,other_combination,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-17,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),3.1,1.37,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-18,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),2.85,1.3,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-19,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),2.03,0.84,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,
+K7-20,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),1.08,0.86,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,Low-x point overlaps Grayson/Pettegrew literature markers; lower confidence
+K7-21,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),0.6,0.75,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,Low-x point overlaps Grayson/Pettegrew literature markers; lower confidence
+K7-22,Olson Ruff Miller 2008 NASA/TM-2008-215260 Fig 7 (authors concurrent tests only),0.3,0.5,velocity_varies,about +/-0.05 in x and +/-0.02 cm/s in y,Low-x point overlaps Grayson/Pettegrew literature markers; lower confidence

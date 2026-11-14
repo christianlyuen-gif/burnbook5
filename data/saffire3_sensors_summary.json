@@ -1,0 +1,149 @@
+{
+ "cadence_s": {
+  "saffire": 29.9,
+  "cabin": 9.9
+ },
+ "record_s": 9573.4,
+ "saffire_window_s": [
+  8173.2,
+  9553.5
+ ],
+ "pressure_psia": {
+  "pre_ignition": 13.985,
+  "max_after": 14.05,
+  "rise": 0.065,
+  "sensors": {
+   "p1": {
+    "pre": 13.992,
+    "max": 14.056,
+    "max_at_s": 8890.0,
+    "end": 14.024
+   },
+   "p2": {
+    "pre": 13.969,
+    "max": 14.034,
+    "max_at_s": 8732.0,
+    "end": 14.018
+   },
+   "p3": {
+    "pre": 13.994,
+    "max": 14.059,
+    "max_at_s": 8865.0,
+    "end": 14.026
+   }
+  }
+ },
+ "air_temp_c": {
+  "pre_ignition": 20.19,
+  "max_after": 20.7,
+  "max_at_s": 9030.0
+ },
+ "smoke_scatter_v": {
+  "baseline": 0.024,
+  "peak": 1.805,
+  "peak_at_s": 8917.0,
+  "above_10sd_windows_s": [
+   [
+    8276.5,
+    9566.5
+   ]
+  ],
+  "end": 0.245,
+  "end_at_s": 9567.0
+ },
+ "airflow_before_ignition_cm_s": [
+  24.1,
+  24.6
+ ],
+ "fan_stopped_s": [
+  [
+   8473.6,
+   8473.6
+  ],
+  [
+   9193.3,
+   9193.3
+  ]
+ ],
+ "igniters": {
+  "sample1": {
+   "channel_selected_from_s": 8533.4,
+   "current_seen_s": [],
+   "peak_current_seen_a": -0.06
+  },
+  "sample2": {
+   "channel_selected_from_s": 8323.1,
+   "current_seen_s": [
+    8383.5
+   ],
+   "peak_current_seen_a": 0.91
+  }
+ },
+ "radiometers": {
+  "rad1": {
+   "baseline": -17.5,
+   "peak_rise": 166.7,
+   "peak_at_s": 8713.1,
+   "above_baseline_s": [
+    [
+     8593.1,
+     8833.2
+    ]
+   ]
+  },
+  "rad2": {
+   "baseline": -17.9,
+   "peak_rise": 171.2,
+   "peak_at_s": 8803.3,
+   "above_baseline_s": [
+    [
+     8413.3,
+     8443.2
+    ],
+    [
+     8653.4,
+     8923.4
+    ]
+   ]
+  },
+  "rad3": {
+   "baseline": -16.3,
+   "peak_rise": 164.7,
+   "peak_at_s": 8713.1,
+   "above_baseline_s": [
+    [
+     8593.1,
+     8833.2
+    ]
+   ]
+  },
+  "rad4": {
+   "baseline": -17.7,
+   "peak_rise": 182.7,
+   "peak_at_s": 8803.3,
+   "above_baseline_s": [
+    [
+     8413.3,
+     8443.2
+    ],
+    [
+     8653.4,
+     8923.4
+    ]
+   ]
+  }
+ },
+ "checks": [
+  "telemetry, not calibrated science data: Saffire channels every ~30 s, cabin channels every ~10 s, so times are good to about 30 s",
+  "the Saffire and Cygnus clocks differ by about 17 s; times here use the Cygnus relative clock given in the file",
+  "no O2, CO2, CO or thermocouple channels in this file, so no gas rise can be computed",
+  "radiometer positions are not labelled; in Saffire-I's file radiometer 1 is 'downstream front', which does not fit the order seen here, so no positions are named",
+  "anemometers read about 24.1 and 24.6 cm/s before ignition; PSI-100 lists 30 cm/s",
+  "from about 9,343 s the anemometer and fan channels hold fixed values (4.3, 6.2 cm/s, -14.7 rpm), so the experiment was probably shut down; readings after that are not airflow",
+  "Cygnus smoke detector FIZ 1 has no readings; FIZ 2 obscuration stepped to about 3.8 V at about 1,500 s, long before any test, and did not respond to the fire",
+  "the FIZ 2 scatter channel spiked to 1.6 V at about 8,296 s, before any radiometer signal but close to when sample 2's igniter channel was switched on (8,323 s, within the 30 s sampling and 17 s clock uncertainty); the cause is not identifiable from this file",
+  "1 cabin rows have an invalid timestamp and were skipped",
+  "the igniter current is caught in one 30 s sample for sample 2 only; sample 1's ignition falls between samples"
+ ],
+ "source": "Saffire-III_Telemetry_Data.xlsx"
+}

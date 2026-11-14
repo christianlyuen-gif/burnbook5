@@ -1,0 +1,77 @@
+{
+ "record_s": 660.0,
+ "samples": 20000,
+ "pressure_psia": {
+  "mean": 14.877,
+  "min": 14.851,
+  "max": 14.904
+ },
+ "igniter": {
+  "on_s": 60.026000000001424,
+  "off_s": 67.97900000000169,
+  "peak_current_a": 4.15,
+  "median_power_w": 183.0
+ },
+ "airflow_before_ignition_cm_s": [
+  21.2,
+  18.8
+ ],
+ "gas": {
+  "o2_pct": {
+   "pre_ignition": 22.3199,
+   "max_after": 22.3644,
+   "min_after": 22.2739,
+   "end": 22.2907,
+   "noise_sd_raw": 0.0236
+  },
+  "co2_pct": {
+   "pre_ignition": 0.6282,
+   "max_after": 0.6449,
+   "min_after": 0.6269,
+   "end": 0.6352,
+   "noise_sd_raw": 0.002
+  }
+ },
+ "radiometers": {
+  "rad1_downstream_front_mw_cm2": {
+   "peak_rise": 19.77,
+   "above_baseline_s": [
+    62.3,
+    147.3
+   ]
+  },
+  "rad2_upstream_front_mw_cm2": {
+   "peak_rise": 0.23,
+   "above_baseline_s": null
+  },
+  "rad3_upstream_back_mw_cm2": {
+   "peak_rise": 0.2,
+   "above_baseline_s": null
+  },
+  "rad4_downstream_back_mw_cm2": {
+   "peak_rise": 16.59,
+   "above_baseline_s": [
+    63.3,
+    144.1
+   ]
+  }
+ },
+ "plume_peak_c": {
+  "plume_tc1_c": 32.3,
+  "plume_tc2_c": 41.6,
+  "plume_tc3_c": 94.4,
+  "plume_tc4_c": 59.4,
+  "plume_tc5_c": 32.1,
+  "plume_tc6_c": 33.6
+ },
+ "sample_tc_peak_c": {
+  "sample_tc7_c": 23.6,
+  "sample_tc8_c": 23.2,
+  "sample_tc9_c": 22.8,
+  "sample_tc10_c": 24.0,
+  "sample_tc11_c": 24.5,
+  "sample_tc12_c": 24.9
+ },
+ "checks": [],
+ "source": "Saffire-I_Sample_2_Sensor_Data_Complete_TM_graphs.xlsx"
+}

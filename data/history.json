@@ -1,0 +1,195 @@
+{
+ "note": "Facts are taken from the NASA pages listed with each event. Where two NASA pages disagree, both values are kept and the disagreement is listed under data_notes. Apollo 1 burned on the launch pad in normal gravity, and Apollo 13's fire was inside an oxygen tank, so neither is a microgravity cabin fire; the links below say which BurnBook findings bear on each lesson and which do not.",
+ "events": [
+  {
+   "id": "apollo-1",
+   "title": "Apollo 1",
+   "date": "27 January 1967",
+   "place": "Launch Pad 34, Kennedy Space Center, during a ground test",
+   "crew": "Virgil \"Gus\" Grissom, Edward White and Roger Chaffee; all three died",
+   "summary": "During a preflight test with the crew suited and the hatches closed, a fire started in a cabin filled with pure oxygen. It spread within seconds, the rising pressure split the cabin open, and the three-piece hatch could not be opened in time.",
+   "facts": [
+    [
+     "Cabin air",
+     "100% oxygen at about 16 psi (110 kPa), slightly above outside pressure"
+    ],
+    [
+     "Ignition",
+     "Never determined; investigators found signs of arcing in wiring near the environmental control system, where damage was worst"
+    ],
+    [
+     "What killed the crew",
+     "Asphyxia from carbon monoxide and other toxic gases; their burns were likely survivable"
+    ],
+    [
+     "Escape",
+     "The hatch took 90 seconds to open in ideal conditions and could not be opened against the raised cabin pressure"
+    ],
+    [
+     "Why it was missed",
+     "With an unfuelled rocket the test was rated non-hazardous, so it had no safety review and no rescue plan"
+    ]
+   ],
+   "changed": [
+    "Combustible materials in the command and lunar modules were severely restricted and controlled",
+    "A one-piece hatch that opens from inside or outside in about 3 seconds",
+    "Fire-resistant spacesuit materials",
+    "Launch-pad cabin air changed to 60% oxygen and 40% nitrogen at 16 psi from Apollo 7 (1968), after deliberate-ignition tests; pure oxygen at low pressure only once in orbit",
+    "Changes to management and safety culture, after a 3,000-page review board report (9 April 1967)"
+   ],
+   "links": [
+    {
+     "claims": [
+      "C-09",
+      "C-45",
+      "C-48"
+     ],
+     "text": "Gas, not heat. The crew died from carbon monoxide and toxic smoke, not burns. Saffire's large orbital fires show the same pattern: temperature rose only near the fire while CO and CO2 spread through the whole cabin."
+    },
+    {
+     "claims": [
+      "C-46",
+      "C-33"
+     ],
+     "text": "Oxygen decides whether a flame persists. In BRE's still-air tests, flames at 21% oxygen put themselves out within 40 s, but at 26.5% and above they kept burning for minutes. Apollo 1's cabin was 100% oxygen."
+    },
+    {
+     "claims": [],
+     "text": "Beyond the data. No ISS experiment in BurnBook goes above 40% oxygen, and the drop-tower tests that reach 85% last 5 seconds. A pure-oxygen cabin at sea-level pressure is outside every dataset here, and no crewed vehicle has used one since."
+    }
+   ],
+   "atmosphere": {
+    "o2_pct": 100,
+    "psia": 16.0
+   },
+   "sources": [
+    {
+     "title": "NASA Office of Safety and Mission Assurance, Apollo 1",
+     "url": "https://sma.nasa.gov/sma-disciplines/accllp/apollo-1"
+    },
+    {
+     "title": "NASA, 50th anniversary of NASA deciding on a mixed-gas atmosphere for Apollo",
+     "url": "https://www.nasa.gov/feature/50th-anniversary-of-nasa-deciding-on-a-mixed-gas-atmosphere-for-apollo-a-direct-result-of"
+    },
+    {
+     "title": "NASA History, 50 Years Ago: Apollo flammability tests",
+     "url": "https://www.nasa.gov/history/50-years-ago-apollo-flammability-tests"
+    }
+   ],
+   "data_notes": [
+    "Cabin pressure: the mixed-gas article gives 16 psi; the flammability-test article gives 16.2 psi for the Apollo 1 conditions. The safety page gives no pressure.",
+    "Orbital atmosphere: the mixed-gas article gives 5 psi of pure oxygen; the flammability-test article gives 6.2 psi.",
+    "The safety page names the pilot as 'Robert' Chaffee in one place and Roger Chaffee elsewhere; Roger is used here."
+   ]
+  },
+  {
+   "id": "apollo-13",
+   "title": "Apollo 13",
+   "date": "13 April 1970",
+   "place": "About 205,000 miles from Earth, about 55 hours 55 minutes into the flight",
+   "crew": "James Lovell, Fred Haise and Jack Swigert; all three survived, splashing down on 17 April",
+   "summary": "When the crew switched on the stirring fans in the service module's oxygen tanks, damaged wire insulation in tank 2 short-circuited and ignited inside the oxygen. The tank failed, oxygen tank 1 was damaged, and the command module lost its oxygen and most of its power. The crew used the lunar module as a lifeboat to get home.",
+   "facts": [
+    [
+     "What burned",
+     "Teflon wire insulation inside the oxygen tank, damaged before launch"
+    ],
+    [
+     "How it was damaged",
+     "The heaters' thermostatic switches were rated for 28 V; during a pad detanking on 25 March 1970 they were run at 65 V, failed to open, and the heater tube likely reached about 1,000 F over eight hours"
+    ],
+    [
+     "Why no one saw it",
+     "The tank's temperature gauge only read up to 85 F"
+    ],
+    [
+     "Survival",
+     "Lithium hydroxide canisters from the command module were square and did not fit the lunar module's round sockets; Mission Control devised an adapter. Water was rationed and the cabin fell to 38 F"
+    ],
+    [
+     "Board verdict",
+     "Not a chance failure but \"an unusual combination of mistakes coupled with a somewhat deficient and unforgiving design\" (report released 15 June 1970)"
+    ]
+   ],
+   "changed": [
+    "Oxygen storage redesigned and recertified, with a third tank in a different bay",
+    "Upgraded thermostats, stirring fans removed from the tanks, and all wiring in them sheathed in stainless steel",
+    "A review of every Apollo system using cryogenic oxygen, with attention to materials compatibility",
+    "Anomaly reviews to include complete component histories, and stronger engineering oversight"
+   ],
+   "links": [
+    {
+     "claims": [
+      "C-48",
+      "C-50"
+     ],
+     "text": "Carbon dioxide is a life-support budget. The crew's survival depended on removing CO2 with mismatched canisters. A fire adds directly to that budget: Saffire-III's 94 cm cloth burn raised cabin CO2 by about half the 1-hour limit."
+    },
+    {
+     "claims": [],
+     "text": "Oxygen equipment as the ignition source. Apollo 13's fire was inside a pressurised oxygen tank, and Mir's 1997 fire started in an oxygen generator. BurnBook's experiments cover fires in cabin air, not inside oxygen systems, so this risk sits outside the data here."
+    },
+    {
+     "claims": [],
+     "text": "One fix protected the next mission. NASA notes that the extra wiring insulation added after Apollo 1 prevented arcing when the crew powered the cold, damp command module back up for re-entry."
+    }
+   ],
+   "atmosphere": null,
+   "sources": [
+    {
+     "title": "NASA Office of Safety and Mission Assurance, Apollo 13",
+     "url": "https://sma.nasa.gov/sma-disciplines/accllp/apollo-13"
+    },
+    {
+     "title": "NASA History, 50 Years Ago: Apollo 13 Review Board report",
+     "url": "https://www.nasa.gov/history/50-years-ago-apollo-13-review-board-report"
+    },
+    {
+     "title": "NASA History, 25 Years Ago: Fire Aboard Space Station Mir (cited for the oxygen-generator origin only)",
+     "url": "https://www.nasa.gov/history/25-years-ago-fire-aboard-space-station-mir/"
+    }
+   ],
+   "data_notes": [
+    "The safety page does not give the date of the explosion; 13 April 1970 and the 55 h 55 min mission time come from the review board article.",
+    "The review board article calls the heater damage and short-circuit sequence the 'likely' chain, supported by ground tests."
+   ]
+  }
+ ],
+ "atmospheres": [
+  {
+   "label": "Apollo 1 pad test, 1967",
+   "o2_pct": 100,
+   "psia": 16.0,
+   "note": "16.2 psi in one NASA article",
+   "kind": "history"
+  },
+  {
+   "label": "Apollo on the pad after the fire, from 1968",
+   "o2_pct": 60,
+   "psia": 16.0,
+   "note": "60% O2, 40% N2",
+   "kind": "history"
+  },
+  {
+   "label": "Apollo in orbit",
+   "o2_pct": 100,
+   "psia": 5.0,
+   "note": "6.2 psi in one NASA article",
+   "kind": "history"
+  },
+  {
+   "label": "ISS cabin today",
+   "o2_pct": 21,
+   "psia": 14.7,
+   "note": "",
+   "kind": "today"
+  },
+  {
+   "label": "Planned exploration cabin",
+   "o2_pct": 34,
+   "psia": 8.2,
+   "note": "tested by BRE (C-46)",
+   "kind": "today"
+  }
+ ]
+}

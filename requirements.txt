@@ -1,0 +1,10 @@
+starlette
+uvicorn
+httpx
+numpy
+pytest
+# Optional language models, set in the environment (not in this file); see api/llm.py and the README:
+#   BURNBOOK_LLM=gemini,openai          provider order with automatic fallback (or 'none')
+#   GEMINI_API_KEY, BURNBOOK_GEMINI_MODEL
+#   ANTHROPIC_API_KEY, BURNBOOK_ANTHROPIC_MODEL
+#   BURNBOOK_OPENAI_BASE_URL, BURNBOOK_OPENAI_MODEL, BURNBOOK_OPENAI_API_KEY   (OpenAI, Groq, OpenRouter, Ollama ...)

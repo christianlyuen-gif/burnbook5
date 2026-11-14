@@ -1,0 +1,86 @@
+{
+ "record_s": 374.9,
+ "samples": 11363,
+ "pressure_psia": {
+  "mean": 14.88,
+  "min": 14.858,
+  "max": 14.902
+ },
+ "igniter": {
+  "on_s": 60.02700000000155,
+  "off_s": 69.1350000000019,
+  "peak_current_a": 3.77,
+  "median_power_w": null
+ },
+ "airflow_before_ignition_cm_s": [
+  20.0,
+  20.0
+ ],
+ "gas": {
+  "o2_pct": {
+   "pre_ignition": 21.7213,
+   "max_after": 21.8015,
+   "min_after": 21.6191,
+   "end": 21.6767,
+   "noise_sd_raw": 0.1178
+  },
+  "co2_pct": {
+   "pre_ignition": 0.3348,
+   "max_after": 0.3434,
+   "min_after": 0.3335,
+   "end": 0.3427,
+   "noise_sd_raw": 0.0006
+  }
+ },
+ "radiometers": {
+  "rad1_downstream_front_mw_cm2": {
+   "peak_rise": 44.97,
+   "above_baseline_s": [
+    61.6,
+    177.7
+   ]
+  },
+  "rad2_upstream_front_mw_cm2": {
+   "peak_rise": 18.79,
+   "above_baseline_s": [
+    62.8,
+    206.3
+   ]
+  },
+  "rad3_upstream_back_mw_cm2": {
+   "peak_rise": 56.85,
+   "above_baseline_s": [
+    61.6,
+    177.1
+   ]
+  },
+  "rad4_downstream_back_mw_cm2": {
+   "peak_rise": 19.15,
+   "above_baseline_s": [
+    62.8,
+    206.5
+   ]
+  }
+ },
+ "plume_peak_c": {
+  "plume_tc1_c": 32.9,
+  "plume_tc2_c": 52.4,
+  "plume_tc3_c": 40.1,
+  "plume_tc4_c": 41.5,
+  "plume_tc5_c": 23.7,
+  "plume_tc6_c": 23.8
+ },
+ "sample_tc_peak_c": {
+  "sample_tc7_c": 680.8,
+  "sample_tc8_c": 960.8,
+  "sample_tc9_c": 20.5,
+  "sample_tc10_c": 20.9,
+  "sample_tc11_c": 20.5,
+  "sample_tc12_c": 22.1
+ },
+ "checks": [
+  "igniter voltage channel reads about 776 V while on, giving a non-physical 2881 W; power withheld (the PSI table lists the planned igniter power)",
+  "radiometer positions are not labelled in this file; the downstream/upstream names follow the Saffire-I layout and may not apply"
+ ],
+ "source": "Saffire-II_Sample_5.xlsx"
+}

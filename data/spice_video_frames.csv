@@ -1,0 +1,17 @@
+frame,kind,time_gmt,fuel_display,air_display,fan_display,rad_display,luminous_length_mm,white_core_length_mm,notes
+045_TP_1,video still,14:46:44,173,45,99,1.00,47.5,41.9,
+045_TP_2,video still,14:51:37,85,49,99,1.31,25.6,20.8,short saturated flame; glare inflates edges
+slide_1,smoke point slide,15:00:24,198,72,139,4.10,47.1,45.1,
+slide_2,smoke point slide,15:01:00,190,71,140,4.10,45.3,43.9,
+slide_3,smoke point slide,15:02:29,283,70,140,4.10,75.5,63.4,near the smoke point: white core stops growing and a dim red tail opens
+slide_4,smoke point slide,15:03:15,285,68,140,4.10,84.5,63.6,"past the smoke point: dim tail longer, core unchanged"
+slide_5,smoke point slide,15:03:46,231,68,139,4.10,58.9,55.9,repeat check: TP_3 at the same settings 33 min later measured 57.5 mm
+045_TP_3,video still,15:36:27,230,67,139,4.10,57.5,55.5,
+045_TP_4,video still,15:42:52,115,68,139,1.78,27.5,24.6,short saturated flame; glare inflates edges
+045_TP_5,video still,15:49:05,106,25,65,3.09,29.1,26.9,
+045_TP_6,video still,15:51:30,58,24,65,1.11,20.8,13.9,short saturated flame; glare inflates edges
+045_TP_7,video still,17:12:31,365,42,100,2.57,111.6,100.9,tip runs off the frame; length is a lower bound
+045_TP_8,video still,17:15:26,182,43,100,0.95,49.2,47.5,
+045_TP_10,video still,17:23:25,191,67,139,3.66,46.7,45.1,
+045_TP_11,video still,17:28:07,335,25,66,4.10,110.2,91.8,tip within a few px of the frame edge
+045_TP_12,video still,17:30:13,165,24,66,1.07,49.2,47.3,

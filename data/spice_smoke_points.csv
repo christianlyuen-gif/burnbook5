@@ -1,0 +1,12 @@
+record_id,fuel,nozzle_mm,gmt_day,time_observed,campaign,fuel_velocity_cm_s,mass_flow_mg_s,coflow_cm_s,smoke_point_length_mm,reynolds_number,source
+SP-001,Ethylene,1.6,83,11:53:25,ISS 2012 (DeBold),40.78,0.93,3.02,24.17,74.11,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-002,Ethylene,1.6,83,11:53:45,ISS 2012 (DeBold),61.67,1.41,7.68,36.46,112.07,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-003,Ethylene,1.6,83,11:54:10,ISS 2012 (DeBold),80.57,1.85,17.67,46.88,146.41,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-004,Ethylene,1.6,83,11:54:31,ISS 2012 (DeBold),94.0,2.15,24.94,51.04,170.82,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-005,Ethylene,1.6,83,11:54:56,ISS 2012 (DeBold),108.42,2.48,34.59,61.25,197.03,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-006,Ethylene,1.6,83,11:55:12,ISS 2012 (DeBold),115.88,2.65,37.31,65.0,210.59,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-007,Ethylene,1.6,45,15:00:23,SPICE 2009 (Dotson data),141.71,3.31,58.02,75.35,257.55,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-008,Ethylene,1.6,45,14:37:08,SPICE 2009 (Dotson data),102.93,2.41,33.57,53.99,187.07,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-009,Ethylene,1.6,45,14:50:07,SPICE 2009 (Dotson data),104.92,2.45,39.21,55.83,190.68,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-010,Ethylene,1.6,168,9:49:13,SPICE 2009 (Dotson data),103.92,2.43,36.39,57.5,188.87,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
+SP-011,Ethylene,1.6,45,15:48:39,SPICE 2009 (Dotson data),69.61,1.63,18.53,36.99,126.52,"DeBold 2012, Laminar Smoke Points of Coflowing Diffusion Flames in Microgravity (M.S. thesis, Univ. of Maryland), Appendix 5.1"
