@@ -142,6 +142,9 @@ svg .strong{fill:var(--ink);font-weight:500}
 input[type=search],input[type=text]{flex:1 1 220px;min-width:0;font:400 15px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
 .btn{font:500 14px var(--sans);background:var(--ink);color:var(--surface);border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
 .ev{display:grid;gap:10px;margin-top:14px}
+.ev-pager{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px}
+.ev-pager[hidden]{display:none}
+.ev-pager button:disabled{opacity:.45;cursor:default}
 .ev-item{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
 .ev-item .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
 .ev-item .id{font:500 12px var(--mono);color:var(--s1)}
@@ -381,6 +384,11 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
     </div>
     <div class="chips" id="topics" style="margin-bottom:4px"></div>
     <div class="ev" id="evList"></div>
+    <nav class="ev-pager" id="evPager" aria-label="Evidence pages" hidden>
+      <button class="chip" id="evPrev" type="button">Previous</button>
+      <span id="evPageLabel" aria-live="polite"></span>
+      <button class="chip" id="evNext" type="button">Next</button>
+    </nav>
     <div class="ask-box">
       <h3>Ask a question</h3>
       <form class="search" id="askForm" style="margin-top:10px">
@@ -866,6 +874,9 @@ function renderSaffire() {
 }
 
 /* ---------- evidence + ask ---------- */
+let topicsExpanded = false;
+let evidencePage = 1;
+const EVIDENCE_PAGE_SIZE = 5;
 const STOP = new Set('a an and are as at be but by can do does for from has have how i in into is it its of on or so than that the their there these this to was were what when where which who why will with would you your'.split(' '));
 function toks(t) { return (t.toLowerCase().match(/[a-z0-9]+/g) || []).filter(x => !STOP.has(x) && x.length > 1).map(x => { for (const s of ['ing', 'ed', 'es', 's']) if (x.endsWith(s) && x.length - s.length >= 3) return x.slice(0, -s.length); return x; }); }
 let IDX = null;
@@ -891,13 +902,32 @@ function evCard(c) {
   return `<article class="ev-item"><div class="meta"><span class="id">${esc(c.id)}</span><span class="pill neutral">${esc(c.topic)}</span><span class="pill neutral">${esc(c.evidence_type)}</span></div><p class="claim">${esc(c.claim)}</p>
   <dl><dt>Conditions</dt><dd>${esc(c.conditions)}</dd><dt>Source</dt><dd>${esc(c.source)}, ${esc(c.location)}</dd><dt>Caveat</dt><dd>${esc(c.caveat)}</dd></dl></article>`;
 }
+
 function renderEvidence() {
   const topics = [...new Set(B.evidence.map(e => e.topic))];
-  $('#topics').innerHTML = `<button class="chip" data-t="" aria-pressed="${state.topic === ''}">All topics</button>` + topics.map(t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${state.topic === t}">${esc(t)}</button>`).join('');
-  $('#topics').querySelectorAll('button').forEach(b => b.onclick = () => { state.topic = b.dataset.t; renderEvidence(); });
+  const visibleTopics = topicsExpanded ? topics : topics.slice(0, 5);
+  const moreChip = topics.length > 5
+    ? `<button class="chip" type="button" data-more aria-expanded="${topicsExpanded}">${topicsExpanded ? 'Less' : 'More'}</button>`
+    : '';
+  $('#topics').innerHTML = `<button class="chip" data-t="" aria-pressed="${state.topic === ''}">All topics</button>` + visibleTopics.map(t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${state.topic === t}">${esc(t)}</button>`).join('') + moreChip;
+  $('#topics').querySelectorAll('button[data-t]').forEach(b => b.onclick = () => { state.topic = b.dataset.t; evidencePage = 1; renderEvidence(); });
+  const more = $('#topics').querySelector('[data-more]');
+  if (more) more.onclick = () => { topicsExpanded = !topicsExpanded; renderEvidence(); };
   const res = search($('#q').value, state.topic);
-  $('#evList').innerHTML = res.length ? res.map(evCard).join('') : '<p class="hint">No claim matches. Try a broader word such as flame, oxygen or smoke.</p>';
+  const pageCount = Math.max(1, Math.ceil(res.length / EVIDENCE_PAGE_SIZE));
+  evidencePage = Math.min(evidencePage, pageCount);
+  const start = (evidencePage - 1) * EVIDENCE_PAGE_SIZE;
+  const pageItems = res.slice(start, start + EVIDENCE_PAGE_SIZE);
+  $('#evList').innerHTML = pageItems.length ? pageItems.map(evCard).join('') : '<p class="hint">No claim matches. Try a broader word such as flame, oxygen or smoke.</p>';
+  const pager = $('#evPager');
+  pager.hidden = res.length <= EVIDENCE_PAGE_SIZE;
+  $('#evPageLabel').textContent = `Page ${evidencePage} of ${pageCount}`;
+  $('#evPrev').disabled = evidencePage <= 1;
+  $('#evNext').disabled = evidencePage >= pageCount;
+  $('#evPrev').onclick = () => { if (evidencePage > 1) { evidencePage--; renderEvidence(); $('#evList').scrollIntoView({ behavior: 'smooth', block: 'start' }); } };
+  $('#evNext').onclick = () => { if (evidencePage < pageCount) { evidencePage++; renderEvidence(); $('#evList').scrollIntoView({ behavior: 'smooth', block: 'start' }); } };
 }
+
 async function askQuestion(q) {
   const out = $('#askOut'); out.innerHTML = '<p class="hint" style="margin-top:12px">Searching</p>';
   let res = null;
@@ -928,7 +958,7 @@ function boot() {
   ['o2', 'psia', 'flow'].forEach(k => $('#' + k).addEventListener('input', e => { state[k] = parseFloat(e.target.value); state.preset = (B.presets.find(x => x.o2 === state.o2 && x.psia === state.psia && x.flow === state.flow) || {}).id || ''; syncControls(); update(); }));
   $('#scLog').onclick = () => { state.scale = 'log'; $('#scLog').setAttribute('aria-pressed', 'true'); $('#scLin').setAttribute('aria-pressed', 'false'); redraw(); };
   $('#scLin').onclick = () => { state.scale = 'lin'; $('#scLin').setAttribute('aria-pressed', 'true'); $('#scLog').setAttribute('aria-pressed', 'false'); redraw(); };
-  $('#q').addEventListener('input', renderEvidence);
+  $('#q').addEventListener('input', () => { evidencePage = 1; renderEvidence(); });
   $('#askForm').addEventListener('submit', e => { e.preventDefault(); const q = $('#askQ').value.trim(); if (q.length >= 3) askQuestion(q); });
   syncControls(); renderReadout(); renderEvidence();
   mount('cHist', drawHist); mount('cFlow', drawFlow); mount('cX', drawX); mount('cLimits', drawLimits); mount('cOxygen', drawOxygen); renderFlexControls(); mount('cFlex', drawFlex); mount('cSoot', drawSoot); mount('cBoundary', drawBoundary); mount('cGap', drawGap);
