@@ -2,6 +2,10 @@
 
 Evidence board for microgravity fire safety: a spread-rate model, flammability boundaries, large-scale test results and a cited evidence base, behind a small API and a single-page dashboard.
 
+##Website
+The following is the link to the website hosted on render. The initial boot may take up to a minute for the server to turn on. Please be patient
+https://burnbook-lpmz.onrender.com/
+
 ## Run it
 
 ```
@@ -14,9 +18,6 @@ python tests/test_api.py          # or: python -m pytest tests
 The BASS and BASS-II tables are rebuilt from the raw NASA PSI downloads with
 `python scripts/ingest_bass.py PSI-25_Experimental_table_BASS-II.csv PSI-26_Experimental_table_BASS.csv`, and the ACME and CFI-G tables with `python scripts/ingest_acme.py` (PSI-20, PSI-21 and the two PSI-159 files).
 
-The page works two ways. Served by the API it loads `/api/bundle` live. Opened as a plain file, or published as a hosted page, it falls back to the embedded snapshot and runs the model and search in the browser.
-
-Optional: configure a language model so `POST /api/ask` and the catalog's "Summarise" button write short answers that may only use BurnBook's own records and cited claims. Without one, both still work: ask returns the matching evidence and summaries are built from the catalog fields. See "Language models" below.
 
 ## API
 
@@ -73,7 +74,7 @@ Model names and free tiers change often, so the OpenAI-compatible provider has n
 
 The ranking (`api/catalog.py`, mirrored in the page so it re-ranks offline) is a fixed weighted score for the cabin atmosphere chosen in the scenario: fuel is a cabin material (x3), oxygen tested (x2), pressure tested (x2), ventilation-like airflow (x1), fire size (x1), data in BurnBook (x1). Each row shows its parts. A blank range scores 0.25 rather than zero, so a gap is penalised without being hidden. The language model only writes summaries; it never sets a rank.
 
-## Scope and honesty notes
+## Scope and  notes
 
 - The model is the published Olson 2008 line (V = 0.2498x + 0.4038, x = O2 fraction × flow × √pressure) plus an uncertainty band fit to 22 digitized points. It covers Kimwipes, concurrent flow, microgravity only, and warns outside O2 24–85%, flow 0–30 cm/s, 3.6–14.7 psia.
 - The PMMA boundary points are partial figure traces; the published fits are the reference.
