@@ -6,8 +6,8 @@
    "title": "Apollo 1",
    "date": "27 January 1967",
    "place": "Launch Pad 34, Kennedy Space Center, during a ground test",
-   "crew": "Virgil \"Gus\" Grissom, Edward White and Roger Chaffee; all three died",
-   "summary": "During a preflight test with the crew suited and the hatches closed, a fire started in a cabin filled with pure oxygen. It spread within seconds, the rising pressure split the cabin open, and the three-piece hatch could not be opened in time.",
+   "crew": "Virgil \"Gus\" Grissom, Edward White and Roger Chaffee",
+   "summary": "During a preflight test with the crew suited and the hatches closed, a fire started in a cabin filled with pure oxygen. It spread within seconds, causing pressure to ris and split open the cabin, and the three-piece hatch couldn't be opened in time.",
    "facts": [
     [
      "Cabin air",
@@ -15,11 +15,11 @@
     ],
     [
      "Ignition",
-     "Never determined; investigators found signs of arcing in wiring near the environmental control system, where damage was worst"
+     "Never determined; Damage was most severe at wiring near the environmental control system."
     ],
     [
      "What killed the crew",
-     "Asphyxia from carbon monoxide and other toxic gases; their burns were likely survivable"
+     "Asphyxia from carbon monoxide and other toxic gases. Their burns were likely survivable"
     ],
     [
      "Escape",
@@ -34,8 +34,8 @@
     "Combustible materials in the command and lunar modules were severely restricted and controlled",
     "A one-piece hatch that opens from inside or outside in about 3 seconds",
     "Fire-resistant spacesuit materials",
-    "Launch-pad cabin air changed to 60% oxygen and 40% nitrogen at 16 psi from Apollo 7 (1968), after deliberate-ignition tests; pure oxygen at low pressure only once in orbit",
-    "Changes to management and safety culture, after a 3,000-page review board report (9 April 1967)"
+    "Launch-pad cabin air changed to 60% oxygen and 40% nitrogen at 16 psi from Apollo 7 (1968), after deliberate-ignition tests.",
+    "Changes to management and safety culture."
    ],
    "links": [
     {
@@ -44,7 +44,7 @@
       "C-45",
       "C-48"
      ],
-     "text": "Gas, not heat. The crew died from carbon monoxide and toxic smoke, not burns. Saffire's large orbital fires show the same pattern: temperature rose only near the fire while CO and CO2 spread through the whole cabin."
+     "text": "Gas as cause of death. The crew died from carbon monoxide and toxic smoke, not burns. Saffire's large orbital fires show the same pattern: temperature rose only near the fire while CO and CO2 spread through the whole cabin."
     },
     {
      "claims": [
@@ -87,7 +87,7 @@
    "title": "Apollo 13",
    "date": "13 April 1970",
    "place": "About 205,000 miles from Earth, about 55 hours 55 minutes into the flight",
-   "crew": "James Lovell, Fred Haise and Jack Swigert; all three survived, splashing down on 17 April",
+   "crew": "James Lovell, Fred Haise and Jack Swigert",
    "summary": "When the crew switched on the stirring fans in the service module's oxygen tanks, damaged wire insulation in tank 2 short-circuited and ignited inside the oxygen. The tank failed, oxygen tank 1 was damaged, and the command module lost its oxygen and most of its power. The crew used the lunar module as a lifeboat to get home.",
    "facts": [
     [
@@ -96,7 +96,7 @@
     ],
     [
      "How it was damaged",
-     "The heaters' thermostatic switches were rated for 28 V; during a pad detanking on 25 March 1970 they were run at 65 V, failed to open, and the heater tube likely reached about 1,000 F over eight hours"
+     "The heaters' thermostatic switches were rated for 28 V; during a pad detanking on 25 March 1970 they were run at 65 V. It failed to open, and the heater tube likely reached about 1,000 F in eight hours"
     ],
     [
      "Why no one saw it",
@@ -104,7 +104,7 @@
     ],
     [
      "Survival",
-     "Lithium hydroxide canisters from the command module were square and did not fit the lunar module's round sockets; Mission Control devised an adapter. Water was rationed and the cabin fell to 38 F"
+     "Lithium hydroxide canisters from the command module were square and did not fit the lunar module's round sockets. Mission Control devised an adapter. Water was rationed and the cabin fell to 38 F"
     ],
     [
      "Board verdict",
@@ -113,7 +113,7 @@
    ],
    "changed": [
     "Oxygen storage redesigned and recertified, with a third tank in a different bay",
-    "Upgraded thermostats, stirring fans removed from the tanks, and all wiring in them sheathed in stainless steel",
+    "Upgraded thermostats and stirring fans removed from the tanks. All wiring is now sheathed in stainless steel",
     "A review of every Apollo system using cryogenic oxygen, with attention to materials compatibility",
     "Anomaly reviews to include complete component histories, and stronger engineering oversight"
    ],
