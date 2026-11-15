@@ -312,6 +312,56 @@ def load_saffire_sensors(record: str, series: bool = True) -> dict | None:
     return out
 
 
+REPLAY_RECORDS = [  # Saffire burns with 1 s sensor records, in the order offered on the page
+    ("saffire3_s1", "Saffire-III, sample 1", "SIBAL cotton-fiberglass sheet, 94 x 40.6 cm", 30, "concurrent"),
+    ("saffire1_s2", "Saffire-I, sample 2", "SIBAL cotton-fiberglass sheet, 94 x 40.6 cm", 20, "opposed"),
+    ("saffire2_s9", "Saffire-II, sample 2-9", "PMMA 1 cm thick, 29 x 5 cm", 20, "concurrent"),
+    ("saffire2_s5", "Saffire-II, sample 2-5", "SIBAL cotton-fiberglass strip, 29 x 5 cm", 20, "concurrent"),
+    ("saffire2_s7", "Saffire-II, sample 2-7", "PMMA (5 cm) joined to Nomex, 29 x 5 cm", 20, "concurrent"),
+    ("saffire2_s1", "Saffire-II, sample 2-1", "Silicone sheet 0.27 mm, 29 x 5 cm", 20, "concurrent"),
+]
+CO2_1H_MMHG = 3.0
+
+
+def load_replay() -> list[dict]:
+    """Second-by-second series for replaying Saffire burns, aligned so t = 0 is igniter on.
+
+    Per second: cabin CO2 rise in mmHg (10 s centred mean minus the pre-ignition level), the largest radiometer rise
+    above its pre-ignition level, the hottest sample and plume thermocouple, and whether any radiometer window
+    (from the reduction summary) says flame was seen. Built from data/<record>_sensors_1hz.csv and _summary.json."""
+    out = []
+    for rec, label, material, flow, direction in REPLAY_RECORDS:
+        r = load_saffire_sensors(rec)
+        if not r:
+            continue
+        sm, rows = r["summary"], r["series"]
+        on, off, psia = sm["igniter"]["on_s"], sm["igniter"]["off_s"], sm["pressure_psia"]["mean"]
+        base_co2 = sm["gas"]["co2_pct"]["pre_ignition"]
+        rad_keys = [k for k in rows[0] if k.startswith("rad")]
+        pre = [x for x in rows if 5 <= x["t_s"] <= on - 5]
+        rad_base = {k: sum(x[k] for x in pre if x[k] is not None) / max(1, sum(x[k] is not None for x in pre)) for k in rad_keys}
+        wins = [w["above_baseline_s"] for w in sm["radiometers"].values() if w["above_baseline_s"]]
+        co2 = [x["co2_pct"] for x in rows]
+        t, co2_mmhg, rad, sample, plume, flame = [], [], [], [], [], []
+        for i, x in enumerate(rows):
+            win = [v for v in co2[max(0, i - 5): i + 5] if v is not None]
+            t.append(round(x["t_s"] - on))
+            co2_mmhg.append(round((sum(win) / len(win) - base_co2) / 100 * psia * 51.715, 3) if win else None)
+            rr = [x[k] - rad_base[k] for k in rad_keys if x[k] is not None]
+            rad.append(round(max(rr), 1) if rr else None)
+            st = [v for k, v in x.items() if k.startswith("sample_tc") and v is not None]
+            pt = [v for k, v in x.items() if k.startswith("plume_tc") and v is not None]
+            sample.append(round(max(st), 1) if st else None)
+            plume.append(round(max(pt), 1) if pt else None)
+            flame.append(1 if any(a <= x["t_s"] <= b for a, b in wins) else 0)
+        seen = [round(min(w[0] for w in wins) - on), round(max(w[1] for w in wins) - on)] if wins else None
+        out.append({"id": rec, "label": label, "material": material, "flow_cm_s": flow, "direction": direction,
+                    "psia": psia, "igniter_s": round(off - on, 1), "flame_seen_s": seen,
+                    "co2_limit_mmhg": CO2_1H_MMHG, "checks": sm["checks"],
+                    "t": t, "co2_mmhg": co2_mmhg, "rad": rad, "sample_c": sample, "plume_c": plume, "flame": flame})
+    return out
+
+
 def load_flex() -> list[dict]:
     """ISS FLEX droplet tests (PSI-69), cleaned by scripts/ingest_flex.py. Mole fractions; pressure in kPa."""
     return [

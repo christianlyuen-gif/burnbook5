@@ -146,6 +146,35 @@ input[type=search],input[type=text]{flex:1 1 220px;min-width:0;font:400 15px var
 .ev-item dd{margin:0}
 .answer{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--s3);border-radius:6px;padding:14px 16px;margin-top:14px}
 .answer.plain{border-left-color:var(--warn)}
+.bd-out{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:16px 28px;margin-top:14px;align-items:start}
+@media (max-width:720px){.bd-out{grid-template-columns:minmax(0,1fr)}}
+.bd-v{display:grid;gap:8px}.bd-v .big{font-size:24px;letter-spacing:-.01em;font-family:var(--sans);font-weight:600}
+.bd-near{display:grid;gap:4px;font-size:13px;color:var(--ink2)}.bd-near i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+#cBoundary svg{cursor:crosshair}
+.rp-ctl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end}
+.rp-ctl label{display:grid;gap:4px;font-size:12.5px;color:var(--ink3)}
+.rp-ctl select{font:400 14px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0;max-width:100%}
+.rp-time{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;margin-top:16px}
+.rp-time output{font:500 14px var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px;margin-top:16px}
+.rp-card{border:1px solid var(--line);border-radius:6px;padding:14px 16px;background:var(--bg);display:grid;gap:10px}
+.rp-card .hd{display:flex;justify-content:space-between;gap:8px;align-items:start;flex-wrap:wrap}
+.rp-card .nm{font-weight:600}.rp-card .nm i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.rp-card .meta{font-size:12.5px;color:var(--ink3)}
+.rp-m{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.rp-m div{display:grid;gap:2px}.rp-m span{font-size:12px;color:var(--ink3)}
+.rp-m b{font:500 20px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.rp-gauge{display:grid;gap:4px}.rp-gauge .track{height:12px}
+.rp-gauge .lab{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.pill.fire{background:var(--badbg);color:var(--bad)}
+.ev-count{margin-top:12px}
+.pager{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px}
+.pager button{font:500 13px/1 var(--mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-width:36px;height:36px;padding:0 10px;cursor:pointer;font-variant-numeric:tabular-nums}
+.pager button[aria-current="page"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager button:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
+.pager .gap{color:var(--ink3);font:400 13px var(--mono);padding:0 2px}
+.chip.more{border-style:dashed;color:var(--ink2)}
 .ask-box{margin-top:26px}
 .hist{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px;align-items:start}
 .hcard{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:grid;gap:14px}
@@ -189,7 +218,7 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
   <section id="history">
     <div class="sec-head">
       <h2>Learning from history: what Apollo 1 and Apollo 13 taught</h2>
-      <p>Apollo 1 and Apollo 13 were tragic accidents caused by oversights in cabin oxygen level, materials and flamibility. Burnbook has gathered the improvements that NASA has made since these accidents, and data to explain how these incidents occured.  .</p>
+      <p>Two Apollo accidents shaped how NASA handles oxygen, materials and fire. Each card gives what happened and what changed, from NASA's own accounts, then which BurnBook findings speak to the lesson today and where the data stops.</p>
     </div>
     <div class="hist" id="histCards"></div>
     <div class="panel" style="margin-top:16px">
@@ -209,7 +238,8 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
     <div class="panel soot" id="sootPanel" style="margin-top:16px">
       <div>
         <h3>Soot score</h3>
-        <p class="hint" style="margin:6px 0 10px">Blue light comes from the reaction zone; yellow, orange and white light is glowing soot. The score is the share of flame pixels in soot colours, from 0 (all blue) to 1 (all soot). It is measured by image processing, so the same photo always gives the same number. It counts area, not brightness, so a dim soot glow that fills a flame still scores high.</p>
+        <p style="margin:8px 0 10px;font-size:14px;color:var(--ink2)"><b style="color:var(--ink)">Will this fire make smoke?</b> Spacecraft smoke detectors respond to particles such as soot. Without gravity, flames don’t behave the way they do on Earth: some make far more soot (CLD Flame, C-34), others almost none once lit (BRE). The soot score measures this in NASA’s flame images as the share of the flame that glows yellow-orange (soot) compared to the blue portion (clean burning), between 0 and 1. A low-scoring flame is one a smoke detector may miss.</p>
+        <p class="hint" style="margin:0 0 10px">Blue light comes from the reaction zone; yellow, orange and white light is glowing soot. The score is the share of flame pixels in soot colours, from 0 (all blue) to 1 (all soot). It is measured by image processing, so the same photo always gives the same number. It counts area, not brightness, so a dim soot glow that fills a flame still scores high.</p>
         <figure class="soot-ex"><img id="sootEx" alt="A spherical flame and the same image with soot pixels painted orange and blue pixels painted cyan"><figcaption class="hint">How it counts: original (left), soot pixels orange and blue pixels cyan (right). The dim orange glow inside this flame is soot, so it scores 0.65.</figcaption></figure>
       </div>
       <div>
@@ -328,7 +358,15 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
         <div class="legend" style="margin:0"><span><i style="background:var(--s1)"></i>Stable flame</span><span><i style="background:var(--s2)"></i>Blowoff</span><span><i style="background:var(--s3)"></i>Quench</span><span>● ISS &nbsp;◆ drop tower</span><span><i class="ln" style="background:var(--ink)"></i>Published fits</span></div>
         <div class="seg" role="group" aria-label="Horizontal scale"><button id="scLog" aria-pressed="true">Log scale</button><button id="scLin" aria-pressed="false">Linear scale</button></div>
       </div>
-      <div id="cBoundary"></div>
+      <p class="hint" style="margin-bottom:6px">Drag the ringed point, or click anywhere on the chart, to test a condition.</p>
+      <div id="cBoundary" style="touch-action:none"></div>
+      <div class="bd-out">
+        <div class="stack" style="gap:4px">
+          <div class="ctl" style="margin-top:0"><label for="bdA">Stretch rate (flow) <output id="bdAv"></output></label><input type="range" id="bdA" min="0" max="1000" step="1"></div>
+          <div class="ctl"><label for="bdO">Oxygen <output id="bdOv"></output></label><input type="range" id="bdO" min="12" max="22.5" step="0.1"></div>
+        </div>
+        <div aria-live="polite" id="bdVerdict"></div>
+      </div>
       <p class="note" id="boundaryNote"></p>
     </div>
   </section>
@@ -351,6 +389,26 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
     </div>
   </section>
 
+  <section id="replay">
+    <div class="sec-head">
+      <h2>Replay a fire, second by second</h2>
+      <p>These are real sensor records from Saffire burns inside Cygnus cargo vehicles. Press play to watch the flame come and go on the radiometers while carbon dioxide builds up in the cabin. Pick a second burn to compare.</p>
+    </div>
+    <div class="panel">
+      <div class="rp-ctl">
+        <label for="rpA">Burn<select id="rpA"></select></label>
+        <label for="rpB">Compare with<select id="rpB"></select></label>
+        <button class="btn" id="rpPlay" type="button" aria-label="Play">Play</button>
+        <div class="seg" role="group" aria-label="Playback speed"><button data-s="1" aria-pressed="false">1×</button><button data-s="10" aria-pressed="true">10×</button><button data-s="30" aria-pressed="false">30×</button></div>
+      </div>
+      <div class="rp-time"><span class="hint">Time</span><input type="range" id="rpT" min="-60" max="600" step="1" value="-10" aria-label="Time after ignition, seconds"><output id="rpTv"></output></div>
+      <div class="rp-cards" id="rpCards"></div>
+      <div class="chart-title" style="margin-top:18px"><h3>Cabin CO₂ rise</h3><span class="hint">mmHg above the level before ignition; shaded: flame seen</span></div>
+      <div id="cReplay"></div>
+      <p class="note" id="rpNote"></p>
+    </div>
+  </section>
+
   <section id="evidence">
     <div class="sec-head">
       <h2>Evidence explorer</h2>
@@ -360,7 +418,9 @@ footer{border-top:1px solid var(--line);padding-top:22px;color:var(--ink3);font-
       <input type="search" id="q" placeholder="Search claims, for example blowoff, smoke detection, Mylar" aria-label="Search evidence">
     </div>
     <div class="chips" id="topics" style="margin-bottom:4px"></div>
+    <p class="hint ev-count" id="evCount" aria-live="polite"></p>
     <div class="ev" id="evList"></div>
+    <nav class="pager" id="evPager" aria-label="Evidence pages"></nav>
     <div class="ask-box">
       <h3>Ask a question</h3>
       <form class="search" id="askForm" style="margin-top:10px">
@@ -402,7 +462,9 @@ function niceMax(v, n = 4) { const s = niceStep(v, n); return Math.ceil(v / s - 
 const SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
 const pow10 = e => '10' + String(e).split('').map(c => SUP[c]).join('');
 
-const state = { o2: 30, psia: 10.2, flow: 20, scale: 'log', topic: '', preset: 'preeva' };
+const state = { o2: 30, psia: 10.2, flow: 20, scale: 'log', topic: '', preset: 'preeva', page: 1, allTopics: false };
+const EV_PER_PAGE = 5, TOPICS_SHOWN = 8;
+const BD = { a: 4, o2: 15.5, drag: false, X: null, Y: null, inv: null };
 
 /* ---------- model (port of api/kimwipes_model.py) ---------- */
 function predict(o2, flow, psia) {
@@ -419,10 +481,12 @@ function predict(o2, flow, psia) {
 
 /* ---------- chart plumbing ---------- */
 const charts = [];
+const runners = {};
+const mountRun = id => runners[id] && runners[id]();
 function mount(id, draw) {
   const el = $('#' + id);
   const run = () => { const w = Math.max(280, Math.floor(el.clientWidth)); el.innerHTML = draw(w); };
-  charts.push(run);
+  charts.push(run); runners[id] = run;
   if (window.ResizeObserver) new ResizeObserver(run).observe(el);
   run();
 }
@@ -548,8 +612,14 @@ function drawBoundary(w) {
     const cx = X(p.stretch), cy = Y(p.o2), c = col[kind], t = `<title>${esc(p.cls.replace(/_/g, ' '))}: a=${p.stretch}, O2=${p.o2}%</title>`;
     g += /Drop/.test(p.cls) ? `<path d="M${cx} ${cy - 5.5}l5.5 5.5-5.5 5.5-5.5-5.5z" style="fill:${c};stroke:var(--surface);stroke-width:1;opacity:.9">${t}</path>` : `<circle cx="${cx}" cy="${cy}" r="4.2" style="fill:${c};stroke:var(--surface);stroke-width:1;opacity:.9">${t}</circle>`;
   });
+  g += `<line x1="${m.l}" x2="${w - m.r}" y1="${Y(21)}" y2="${Y(21)}" style="stroke:var(--ink3);stroke-dasharray:1 4"/><text class="lbl" x="${w - m.r - 4}" y="${Y(21) - 5}" text-anchor="end">21% O₂: ISS cabin air</text>`;
   g += `<text class="lbl strong" x="${m.l + 10}" y="${Y(20.5)}">Flame sustained above the curves</text>`;
   g += `<text class="lbl" x="${X(log ? 1.15 : 8)}" y="${Y(12.45)}">No sustained flame below</text>`;
+  BD.X = X; BD.Y = Y; BD.m = m; BD.w = w; BD.h = h; BD.log = log; BD.a0 = log ? 1 : 0; BD.a1 = a1;
+  bdNearest().forEach(p => { g += `<circle cx="${X(p.stretch)}" cy="${Y(p.o2)}" r="9" style="fill:none;stroke:var(--ink);stroke-width:1.5"/>`; });
+  const mx = X(Math.max(BD.a0, BD.a)), my = Y(BD.o2), v = bdVerdict(BD.a, BD.o2);
+  g += `<line x1="${mx}" x2="${mx}" y1="${my}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1;stroke-dasharray:2 3;opacity:.6"/>`;
+  g += `<g id="bdMark" style="cursor:grab"><circle cx="${mx}" cy="${my}" r="13" style="fill:var(--surface);opacity:.6"/><circle cx="${mx}" cy="${my}" r="8" style="fill:${v.col};stroke:var(--ink);stroke-width:2.5"/></g>`;
   const amb = B.boundary.points.filter(p => p.cls === 'ambiguous_purple_marker').length;
   $('#boundaryNote').textContent = `Curves are the published fits from Olson and Ferkul 2015: quench O₂ = 7·e^(−0.8a) + 13.3, blowoff O₂ = 0.02a + 13.3. ${B.boundary.points.length - amb} of ${B.boundary.points.length} traced points are plotted; ${amb} could not be classified from the figure and are left out. Stretch rates leave out curvature-induced stretch, so some points sit left of the curve the physics would place them on. The blowoff points were read by hand and do not exactly reproduce the published ISS line, so treat the curves as the reference.`;
   return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="PMMA flammability boundary, oxygen against stretch rate">${g}</svg>`;
@@ -699,6 +769,122 @@ function drawHist(w) {
   });
   $('#histNote').textContent = `O₂ partial pressure is the oxygen share times the cabin pressure. The Apollo 1 cabin held about five times the oxygen partial pressure of today's ISS air. Dashed lines mark the highest oxygen in BurnBook's data: ${R.iss.name} on the ISS (${R.iss.o2[1]}%)${R.tower ? ` and ${R.tower.name}, 5-second drop-tower tests (${R.tower.o2[1]}%)` : ''}. Where NASA pages give two pressures, the hover text names the other.`;
   return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Oxygen share of cabin air for Apollo-era and current spacecraft atmospheres">${g}</svg>`;
+}
+
+/* ---------- boundary: drag a test condition ---------- */
+function bdLimit(a) {
+  const F = B.boundary.fits, q = F.pmma_rod_quench, bo = F.pmma_rod_blowoff, qv = q.A * Math.exp(-q.D * a) + q.C, bv = bo.B * a + bo.C;
+  return { q: qv, b: bv, lim: Math.max(qv, bv), side: qv >= bv ? 'quench' : 'blowoff' };
+}
+function bdVerdict(a, o2) {
+  const L = bdLimit(a), d = o2 - L.lim;
+  if (Math.abs(d) < 0.4) return { cls: 'warn', col: 'var(--warn)', head: 'On the edge', d, L };
+  if (d > 0) return { cls: 'ok', col: 'var(--s1)', head: 'Flame keeps burning', d, L };
+  return L.side === 'quench' ? { cls: 'bad', col: 'var(--s3)', head: 'Too little flow: the flame quenches', d, L } : { cls: 'bad', col: 'var(--s2)', head: 'Too much flow: the flame blows off', d, L };
+}
+function bdNearest(k = 3) {
+  const la = a => Math.log10(Math.max(1, a)), sa = Math.log10(160);
+  return B.boundary.points.filter(p => !/ambiguous/.test(p.cls)).map(p => [Math.hypot((la(p.stretch) - la(BD.a)) / sa, (p.o2 - BD.o2) / 10.5), p]).sort((x, y) => x[0] - y[0]).slice(0, k).map(x => x[1]);
+}
+const bdToSlider = a => Math.round(Math.log10(a / 1) / Math.log10(150) * 1000), bdFromSlider = v => Math.pow(150, v / 1000);
+function bdRender() {
+  $('#bdA').value = bdToSlider(Math.max(1, BD.a)); $('#bdO').value = BD.o2;
+  $('#bdAv').textContent = `${BD.a < 10 ? BD.a.toFixed(1) : Math.round(BD.a)} 1/s`; $('#bdOv').textContent = `${BD.o2.toFixed(1)}%`;
+  const v = bdVerdict(BD.a, BD.o2), lim = v.L.lim.toFixed(1);
+  const why = v.cls === 'ok' ? `${v.d.toFixed(1)} points of oxygen above the limit at this flow (${lim}%).`
+    : v.cls === 'warn' ? `Within 0.4 points of the limit at this flow (${lim}%). Near the boundary, tests at the same condition went both ways (C-05), so treat this as a coin toss.`
+    : `${Math.abs(v.d).toFixed(1)} points of oxygen below the limit at this flow (${lim}%). ${v.L.side === 'quench' ? 'Slow flow cannot carry enough oxygen in to replace what the flame uses.' : 'Fast flow strips heat away faster than the flame can hold on.'}`;
+  const near = bdNearest(), burned = near.filter(p => /stable/.test(p.cls)).length;
+  const against = v.cls === 'ok' ? near.length - burned : v.cls === 'bad' ? burned : 0;
+  const clash = against >= 2 ? `<p style="font-size:13.5px;color:var(--warn)">But ${against} of the 3 closest real tests went the other way. The curves leave out stretch from the rod's curvature, and flames near the limit behave unpredictably (C-05), so real tests here are the better guide.</p>` : '';
+  const name = c => c.replace(/_/g, ' ').replace('ISS', 'ISS:').replace('DropTower', 'Drop tower:').replace('stable flame', 'stable flame');
+  const col = c => /stable/.test(c) ? 'var(--s1)' : /blowoff/.test(c) ? 'var(--s2)' : 'var(--s3)';
+  $('#bdVerdict').innerHTML = `<div class="bd-v"><span class="pill ${v.cls}" style="justify-self:start">${v.cls === 'ok' ? 'Burns' : v.cls === 'warn' ? 'Uncertain' : 'Goes out'}</span><p class="big">${v.head}</p><p style="color:var(--ink2);font-size:14px">${why}</p>${clash}
+    <div class="bd-near"><span class="hint">Closest real tests (ringed on the chart)</span>${near.map(p => `<span><i style="background:${col(p.cls)}"></i>${esc(name(p.cls))} at ${p.stretch} 1/s, ${p.o2}% O₂</span>`).join('')}</div></div>`;
+}
+function bdSet(a, o2) { BD.a = Math.min(150, Math.max(1, a)); BD.o2 = Math.min(22.5, Math.max(12, Math.round(o2 * 10) / 10)); mountRun('cBoundary'); bdRender(); }
+function bdFromEvent(e) {
+  const svg = $('#cBoundary svg'); if (!svg || !BD.X) return;
+  const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * (BD.w / r.width), py = (e.clientY - r.top) * (BD.h / r.height), m = BD.m;
+  const f = Math.min(1, Math.max(0, (px - m.l) / (BD.w - m.r - m.l)));
+  const a = BD.log ? Math.pow(10, f * Math.log10(BD.a1 / 1)) : BD.a0 + f * (BD.a1 - BD.a0);
+  const o2 = 22.5 - Math.min(1, Math.max(0, (py - m.t) / (BD.h - m.b - m.t))) * (22.5 - 12);
+  bdSet(a, o2);
+}
+function initBoundaryDrag() {
+  const el = $('#cBoundary');
+  el.addEventListener('pointerdown', e => { BD.drag = true; el.setPointerCapture(e.pointerId); bdFromEvent(e); });
+  el.addEventListener('pointermove', e => { if (BD.drag) bdFromEvent(e); });
+  ['pointerup', 'pointercancel'].forEach(t => el.addEventListener(t, () => { BD.drag = false; }));
+  $('#bdA').oninput = e => bdSet(bdFromSlider(+e.target.value), BD.o2);
+  $('#bdO').oninput = e => bdSet(BD.a, +e.target.value);
+  bdRender();
+}
+
+/* ---------- replay a fire ---------- */
+const RP = { a: 'saffire3_s1', b: 'saffire1_s2', t: -10, speed: 10, playing: false, last: null, sec: null, X: null };
+const rpRec = id => (B.replay || []).find(r => r.id === id);
+const rpAt = (r, t) => { const i = Math.max(0, Math.min(r.t.length - 1, Math.round(t) - r.t[0])); return i; };
+function rpEnd() { return Math.max(...[RP.a, RP.b].map(rpRec).filter(Boolean).map(r => r.t[r.t.length - 1])); }
+function rpStatus(r, t, i) {
+  if (t < 0) return ['neutral', 'Before ignition'];
+  if (t <= r.igniter_s) return ['warn', 'Igniter on'];
+  if (r.flame[i]) return ['fire', 'Flame seen'];
+  return r.flame_seen_s && t > r.flame_seen_s[1] ? ['ok', 'Flame out'] : ['neutral', 'No flame seen'];
+}
+function rpCard(r, col, t) {
+  const i = rpAt(r, t), [cls, txt] = rpStatus(r, t, i), c = r.co2_mmhg[i], pct = c == null ? 0 : Math.max(0, c) / r.co2_limit_mmhg * 100;
+  const v = (x, d = 0) => x == null ? '–' : Number(x).toFixed(d);
+  return `<div class="rp-card"><div class="hd"><div><div class="nm"><i style="background:${col}"></i>${esc(r.label)}</div><div class="meta">${esc(r.material)} · ${r.flow_cm_s} cm/s ${esc(r.direction)} flow</div></div><span class="pill ${cls}">${txt}</span></div>
+  <div class="rp-gauge"><div class="lab"><span>Cabin CO₂ rise <b class="mono" style="color:var(--ink)">${v(c, 2)} mmHg</b></span><span>${pct.toFixed(0)}% of the 1-hour limit</span></div><div class="track"><div class="bar${pct >= 100 ? ' over' : ''}" style="width:${Math.min(100, pct)}%"></div></div></div>
+  <div class="rp-m"><div><span>Hottest in sample</span><b>${v(r.sample_c[i])}<small class="hint"> °C</small></b></div><div><span>Plume above</span><b>${v(r.plume_c[i])}<small class="hint"> °C</small></b></div><div><span>Radiometer rise</span><b>${v(r.rad[i], 1)}<small class="hint"> mW/cm²</small></b></div></div></div>`;
+}
+function rpRender(force) {
+  const A = rpRec(RP.a), Bb = rpRec(RP.b); if (!A) return;
+  const sec = Math.round(RP.t);
+  $('#rpT').value = sec; $('#rpTv').textContent = `${sec >= 0 ? sec : '−' + Math.abs(sec)} s after ignition`;
+  if (force || sec !== RP.sec) { RP.sec = sec; $('#rpCards').innerHTML = rpCard(A, 'var(--s1)', RP.t) + (Bb ? rpCard(Bb, 'var(--s2)', RP.t) : ''); }
+  const cur = $('#rpCursor'); if (cur && RP.X) { const x = RP.X(Math.max(RP.X.d0, Math.min(RP.X.d1, RP.t))); cur.setAttribute('x1', x); cur.setAttribute('x2', x); }
+}
+function drawReplay(w) {
+  const recs = [[rpRec(RP.a), 'var(--s1)'], [rpRec(RP.b), 'var(--s2)']].filter(r => r[0]); if (!recs.length) return '';
+  const h = 240, m = { l: 48, r: 14, t: 12, b: 40 }, t0 = -60, t1 = rpEnd();
+  const peak = Math.max(...recs.flatMap(([r]) => r.co2_mmhg.filter(v => v != null)));
+  const yMax = niceMax(Math.max(0.2, peak * 1.15)), X = lin(t0, t1, m.l, w - m.r), Y = lin(Math.min(0, -yMax * 0.05), yMax, h - m.b, m.t);
+  X.d0 = t0; X.d1 = t1; RP.X = X;
+  let g = axes(m, w, h, X, Y, ticks(0, t1, 6), ticks(0, yMax, 4), v => v, v => v, 'Seconds after ignition', 'CO₂ rise (mmHg)');
+  recs.forEach(([r, col]) => { if (r.flame_seen_s) g += `<rect x="${X(r.flame_seen_s[0])}" y="${m.t}" width="${Math.max(1, X(r.flame_seen_s[1]) - X(r.flame_seen_s[0]))}" height="${h - m.b - m.t}" style="fill:${col};opacity:.1"/>`; });
+  const lim = recs[0][0].co2_limit_mmhg;
+  if (lim <= yMax) g += `<line x1="${m.l}" x2="${w - m.r}" y1="${Y(lim)}" y2="${Y(lim)}" style="stroke:var(--bad);stroke-dasharray:5 4"/><text class="lbl" x="${w - m.r - 4}" y="${Y(lim) - 6}" text-anchor="end" style="fill:var(--bad)">1-hour limit</text>`;
+  recs.forEach(([r, col]) => { const pts = r.t.map((t, i) => r.co2_mmhg[i] == null ? null : [X(t), Y(r.co2_mmhg[i])]).filter(Boolean); g += `<path d="${path(pts)}" style="fill:none;stroke:${col};stroke-width:2"/>`; });
+  g += `<line id="rpCursor" x1="${X(RP.t)}" x2="${X(RP.t)}" y1="${m.t}" y2="${h - m.b}" style="stroke:var(--ink);stroke-width:1.5"/>`;
+  const note = lim > yMax ? ` The 1-hour CO₂ limit (${lim} mmHg) is above the top of this chart.` : '';
+  $('#rpNote').textContent = `CO₂ is read in the avionics bay as a 10 s running mean, so it lags the flame and depends on cabin mixing. "Flame seen" is when any radiometer sat above its level before ignition; the hot igniter also registers in the first seconds. Saffire-II samples burned one after another in the same cabin, so their background CO₂ drifts.${note} Data: NASA PSI sensor workbooks, reduced by BurnBook.`;
+  return `<svg viewBox="0 0 ${w} ${h}" height="${h}" role="img" aria-label="Cabin carbon dioxide rise over time for the selected Saffire burns">${g}</svg>`;
+}
+function rpTick(ts) {
+  if (!RP.playing) return;
+  if (RP.last != null) RP.t += (ts - RP.last) / 1000 * RP.speed;
+  RP.last = ts;
+  if (RP.t >= rpEnd()) { RP.t = rpEnd(); rpPause(); }
+  rpRender(); if (RP.playing) requestAnimationFrame(rpTick);
+}
+function rpPause() { RP.playing = false; RP.last = null; $('#rpPlay').textContent = 'Play'; $('#rpPlay').setAttribute('aria-label', 'Play'); }
+function initReplay() {
+  if (!B.replay || !B.replay.length) { $('#replay').hidden = true; return; }
+  const opts = sel => B.replay.map(r => `<option value="${r.id}"${r.id === sel ? ' selected' : ''}>${esc(r.label)}: ${esc(r.material.split(',')[0])}</option>`).join('');
+  $('#rpA').innerHTML = opts(RP.a); $('#rpB').innerHTML = `<option value="">None</option>` + opts(RP.b);
+  const reset = () => { $('#rpT').max = rpEnd(); RP.t = Math.min(RP.t, rpEnd()); redraw(); rpRender(true); };
+  $('#rpA').onchange = e => { RP.a = e.target.value; reset(); };
+  $('#rpB').onchange = e => { RP.b = e.target.value; reset(); };
+  $('#rpT').oninput = e => { RP.t = +e.target.value; rpRender(); };
+  $('#rpPlay').onclick = () => {
+    if (RP.playing) { rpPause(); return; }
+    if (RP.t >= rpEnd()) RP.t = -10;
+    RP.playing = true; RP.last = null; $('#rpPlay').textContent = 'Pause'; $('#rpPlay').setAttribute('aria-label', 'Pause'); requestAnimationFrame(rpTick);
+  };
+  document.querySelectorAll('#replay .seg button').forEach(b => b.onclick = () => { RP.speed = +b.dataset.s; document.querySelectorAll('#replay .seg button').forEach(x => x.setAttribute('aria-pressed', x === b)); });
+  $('#rpT').max = rpEnd();
 }
 
 /* ---------- investigation catalog ---------- */
@@ -871,12 +1057,40 @@ function evCard(c) {
   return `<article class="ev-item"><div class="meta"><span class="id">${esc(c.id)}</span><span class="pill neutral">${esc(c.topic)}</span><span class="pill neutral">${esc(c.evidence_type)}</span></div><p class="claim">${esc(c.claim)}</p>
   <dl><dt>Conditions</dt><dd>${esc(c.conditions)}</dd><dt>Source</dt><dd>${esc(c.source)}, ${esc(c.location)}</dd><dt>Caveat</dt><dd>${esc(c.caveat)}</dd></dl></article>`;
 }
-function renderEvidence() {
-  const topics = [...new Set(B.evidence.map(e => e.topic))];
-  $('#topics').innerHTML = `<button class="chip" data-t="" aria-pressed="${state.topic === ''}">All topics</button>` + topics.map(t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${state.topic === t}">${esc(t)}</button>`).join('');
-  $('#topics').querySelectorAll('button').forEach(b => b.onclick = () => { state.topic = b.dataset.t; renderEvidence(); });
-  const res = search($('#q').value, state.topic);
-  $('#evList').innerHTML = res.length ? res.map(evCard).join('') : '<p class="hint">No claim matches. Try a broader word such as flame, oxygen or smoke.</p>';
+function pageList(cur, n) {
+  // first, last, and the current page with one neighbour each side; '…' marks skipped pages
+  const keep = new Set([1, n, cur - 1, cur, cur + 1].filter(p => p >= 1 && p <= n)), out = [];
+  [...keep].sort((a, b) => a - b).forEach((p, i, a) => { if (i && p - a[i - 1] > 1) out.push('…'); out.push(p); });
+  return out;
+}
+function renderEvidence(scroll = false) {
+  const counts = {};
+  B.evidence.forEach(e => { counts[e.topic] = (counts[e.topic] || 0) + 1; });
+  const topics = Object.keys(counts).sort((a, b) => counts[b] - counts[a] || a.localeCompare(b));
+  let shown = state.allTopics ? topics : topics.slice(0, TOPICS_SHOWN);
+  if (state.topic && !shown.includes(state.topic)) shown = [...shown, state.topic];  // keep the active filter visible
+  const hidden = topics.length - shown.length;
+  const chip = t => `<button class="chip" data-t="${esc(t)}" aria-pressed="${state.topic === t}">${esc(t)} <span class="hint">${counts[t]}</span></button>`;
+  $('#topics').innerHTML = `<button class="chip" data-t="" aria-pressed="${state.topic === ''}">All topics</button>` + shown.map(chip).join('')
+    + (hidden > 0 ? `<button class="chip more" data-more="1" aria-expanded="false">${hidden} more topics</button>` : state.allTopics ? `<button class="chip more" data-more="0" aria-expanded="true">Fewer topics</button>` : '');
+  $('#topics').querySelectorAll('button').forEach(b => b.onclick = () => {
+    if (b.dataset.more) { state.allTopics = b.dataset.more === '1'; renderEvidence(); return; }
+    state.topic = b.dataset.t; state.page = 1; renderEvidence();
+  });
+  const res = search($('#q').value, state.topic, Infinity), n = Math.max(1, Math.ceil(res.length / EV_PER_PAGE));
+  state.page = Math.min(Math.max(1, state.page), n);
+  const a = (state.page - 1) * EV_PER_PAGE, page = res.slice(a, a + EV_PER_PAGE);
+  $('#evCount').textContent = res.length ? `Showing ${a + 1}–${a + page.length} of ${res.length} claim${res.length === 1 ? '' : 's'}` : '';
+  $('#evList').innerHTML = res.length ? page.map(evCard).join('') : '<p class="hint">No claim matches. Try a broader word such as flame, oxygen or smoke.</p>';
+  const pg = $('#evPager');
+  if (n <= 1) { pg.innerHTML = ''; }
+  else {
+    pg.innerHTML = `<button data-p="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''} aria-label="Previous page">‹ Prev</button>`
+      + pageList(state.page, n).map(p => p === '…' ? '<span class="gap">…</span>' : `<button data-p="${p}" ${p === state.page ? 'aria-current="page"' : ''} aria-label="Page ${p}">${p}</button>`).join('')
+      + `<button data-p="${state.page + 1}" ${state.page === n ? 'disabled' : ''} aria-label="Next page">Next ›</button>`;
+    pg.querySelectorAll('button[data-p]').forEach(b => b.onclick = () => { state.page = +b.dataset.p; renderEvidence(true); });
+  }
+  if (scroll) { const top = $('#evCount').getBoundingClientRect().top; if (top < 0) $('#evCount').scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
 }
 async function askQuestion(q) {
   const out = $('#askOut'); out.innerHTML = '<p class="hint" style="margin-top:12px">Searching</p>';
@@ -898,6 +1112,7 @@ function renderStatic() {
   $('#gapLede').textContent = C.explanation + ' Aircraft parabolas offer only about 20 seconds of reduced gravity, so closing the gap needs new partial-gravity experiments.';
   $('#gapNote').textContent = 'Durations and gravity levels are from the 1989 NASA memo where stated; ≈ marks a level inferred from platform type. Hollow circles show what a Learjet parabola can fly but no record in this set uses it.';
   const L = B.model.loo;
+  $('#loo').textContent = `Leave-one-out check: RMSE ${f2(L.rmse_cm_s)} cm/s about the published line, and the 95% range held ${Math.round(L.interval_coverage * 100)}% of the ${L.n} held-out tests. Refitting the line or using a power law or Gaussian process did not beat it.`;
   $('#limitsNote').textContent = 'Points give the change in oxygen from the 1 g limit to the lowest 0 g burning oxygen, from Olson 2008 Table 1. For Ultem the paper\'s table gives −1.75 but its text says −2.75; the table value is plotted.';
 }
 function setMode() { $('#mode').innerHTML = live ? '<span class="dot live"></span><span>Live API</span>' : '<span class="dot"></span><span>Embedded snapshot, no server</span>'; }
@@ -908,10 +1123,10 @@ function boot() {
   ['o2', 'psia', 'flow'].forEach(k => $('#' + k).addEventListener('input', e => { state[k] = parseFloat(e.target.value); state.preset = (B.presets.find(x => x.o2 === state.o2 && x.psia === state.psia && x.flow === state.flow) || {}).id || ''; syncControls(); update(); }));
   $('#scLog').onclick = () => { state.scale = 'log'; $('#scLog').setAttribute('aria-pressed', 'true'); $('#scLin').setAttribute('aria-pressed', 'false'); redraw(); };
   $('#scLin').onclick = () => { state.scale = 'lin'; $('#scLin').setAttribute('aria-pressed', 'true'); $('#scLog').setAttribute('aria-pressed', 'false'); redraw(); };
-  $('#q').addEventListener('input', renderEvidence);
+  $('#q').addEventListener('input', () => { state.page = 1; renderEvidence(); });
   $('#askForm').addEventListener('submit', e => { e.preventDefault(); const q = $('#askQ').value.trim(); if (q.length >= 3) askQuestion(q); });
   syncControls(); renderReadout(); renderEvidence();
-  mount('cHist', drawHist); mount('cFlow', drawFlow); mount('cX', drawX); mount('cLimits', drawLimits); mount('cOxygen', drawOxygen); renderFlexControls(); mount('cFlex', drawFlex); mount('cSoot', drawSoot); mount('cBoundary', drawBoundary); mount('cGap', drawGap);
+  mount('cHist', drawHist); initReplay(); mount('cReplay', drawReplay); rpRender(true); mount('cFlow', drawFlow); mount('cX', drawX); mount('cLimits', drawLimits); mount('cOxygen', drawOxygen); renderFlexControls(); mount('cFlex', drawFlex); mount('cSoot', drawSoot); mount('cBoundary', drawBoundary); initBoundaryDrag(); mount('cGap', drawGap);
   askQuestion($('#askQ').value);
 }
 (async () => {

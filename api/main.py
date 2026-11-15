@@ -162,6 +162,10 @@ async def saffire_sensors(request: Request):
     return JSONResponse(rec)
 
 
+async def replay(request: Request):
+    return JSONResponse(data.load_replay())
+
+
 async def history(request: Request):
     return JSONResponse(data.load_history())
 
@@ -308,6 +312,7 @@ async def bundle(request: Request):
         "spice": spice_payload(),
         "flex": data.load_flex(),
         "history": data.load_history(),
+        "replay": data.load_replay(),
         "gallery": data.load_gallery(),
         "acme": data.load_acme(),
         "soot": data.load_soot(),
@@ -344,6 +349,7 @@ routes = [
     Route("/api/saffire/sensors", saffire_sensors),
     Route("/api/evidence", evidence),
     Route("/api/history", history),
+    Route("/api/replay", replay),
     Route("/api/ask", ask, methods=["POST"]),
     Route("/api/investigations", investigations),
     Route("/api/investigations/{inv_id}/summary", investigation_summary, methods=["POST"]),

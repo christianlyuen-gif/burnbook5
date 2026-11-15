@@ -64,7 +64,7 @@ def test_coverage_zero_partial_gravity():
 
 def test_bundle_keys():
     j = client.get("/api/bundle").json()
-    assert set(j) == {"model", "presets", "boundary", "limits", "saffire", "evidence", "coverage", "discrete", "bass2", "spice", "gallery", "acme", "soot", "catalog", "flex", "history"}
+    assert set(j) == {"model", "presets", "boundary", "limits", "saffire", "evidence", "coverage", "discrete", "bass2", "spice", "gallery", "acme", "soot", "catalog", "flex", "history", "replay"}
     assert len(j["evidence"]) == 53 and len(j["boundary"]["points"]) == 64
     assert len(j["bass2"]["tests"]) == 129
 
@@ -366,6 +366,18 @@ def test_history_events_link_to_real_claims():
         for link in e["links"]:
             assert set(link["claims"]) <= ids
     assert {"C-52", "C-53"} <= ids
+
+def test_replay_series_align_on_ignition_and_match_summaries():
+    R = client.get("/api/replay").json()
+    ids = [r["id"] for r in R]
+    assert ids[:2] == ["saffire3_s1", "saffire1_s2"] and len(R) == 6
+    for r in R:
+        n = len(r["t"])
+        assert all(len(r[k]) == n for k in ("co2_mmhg", "rad", "sample_c", "plume_c", "flame"))
+        assert 0 in r["t"] and r["t"] == sorted(r["t"])
+    s3 = R[0]
+    assert 1.4 < max(v for v in s3["co2_mmhg"] if v is not None) < 1.7  # matches SF-08 (1.57 mmHg)
+    assert s3["flame_seen_s"][1] > 300 and s3["co2_limit_mmhg"] == 3.0
 
 
 
