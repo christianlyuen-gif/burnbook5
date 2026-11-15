@@ -2,7 +2,7 @@
 
 Evidence board for microgravity fire safety: a spread-rate model, flammability boundaries, large-scale test results and a cited evidence base, behind a small API and a single-page dashboard.
 
-##Website
+## Website
 The following is the link to the website hosted on render. The initial boot may take up to a minute for the server to turn on. Please be patient
 https://burnbook-lpmz.onrender.com/
 
